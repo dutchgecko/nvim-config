@@ -1,2 +1,5 @@
-GuiFont! DejaVuSansMono NF:h9
+GuiFont! DejaVuSansMono NF:h10
 GuiTabline 0
+
+" Fix for bug https://github.com/equalsraf/neovim-qt/issues/170
+nnoremap <C-6> <C-^>

@@ -1,7 +1,7 @@
 "#############################################################################
 "### Variables for use within this vimrc                            {{{1    ##
 "#############################################################################
-let s:vimdir = split(&runtimepath, ',')[0] . '/'
+let s:vimdir = split(&runtimepath, ',')[0]
 
 augroup myvimrc
     autocmd!
@@ -22,6 +22,7 @@ call plug#begin(s:vimdir . '/plugged')
 
 " Colorschemes          {{{2
 Plug 'morhetz/gruvbox'
+Plug 'sainnhe/sonokai'
 
 " Interface             {{{2
 Plug 'vim-airline/vim-airline'
@@ -46,6 +47,7 @@ endif
 " Languages             {{{2
 Plug 'plasticboy/vim-markdown'
 Plug 'kh3phr3n/python-syntax'
+Plug 'sheerun/vim-polyglot'
 
 " Editing               {{{2
 Plug 'vim-scripts/ReplaceWithRegister'
@@ -121,8 +123,8 @@ set mouse=a
 
 set termguicolors
 set background=dark
-colorscheme gruvbox
-let g:gruvbox_contrast_dark='hard'
+let g:sonokai_style = 'atlantis'
+colorscheme sonokai
 
 set completeopt=menu,menuone,preview,noselect,noinsert
 
@@ -237,6 +239,7 @@ let g:airline#extensions#tmuxline#enabled = 0
 
 "### IndentLine ###         {{{2
 let g:indentLine_char = ''
+let g:indentLine_bufTypeExclude = ['help', 'terminal']
 
 "### Ctrl-P ###             {{{2
 " Use rust tool fd if available
