@@ -67,6 +67,8 @@ Plug 'lucapette/vim-textobj-underscore'
 " Smarts                {{{2
 Plug 'w0rp/ale'
 Plug 'neovim/nvim-lsp'
+Plug 'tpope/vim-dispatch'
+Plug 'radenling/vim-dispatch-neovim'
 
 " Usability             {{{2
 Plug 'Konfekt/FastFold'
@@ -272,6 +274,6 @@ function! TableFormat()
     call setpos('.', l:pos)
 endfunction
 
-command TableFormat call TableFormat()
+command! TableFormat call TableFormat()
 
 " vim: set fdm=marker: "
