@@ -109,9 +109,9 @@ set laststatus=2
 set noshowmode
 
 set linebreak
-let &showbreak=' ↳  '
+let &showbreak=' ﬌  '
 set list
-set listchars=tab:‣\ ,trail:·
+set listchars=tab:\ \ ﲒ,trail:·,extends:,precedes:
 set colorcolumn=81,121
 
 set foldlevel=999
