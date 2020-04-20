@@ -108,6 +108,9 @@ set showtabline=2
 set laststatus=2
 set noshowmode
 
+set noincsearch
+set inccommand=split
+
 set linebreak
 let &showbreak=' ﬌  '
 set list
