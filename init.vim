@@ -114,7 +114,7 @@ set inccommand=split
 set linebreak
 let &showbreak=' ﬌  '
 set list
-set listchars=tab:\ \ ﲒ,trail:·,extends:,precedes:
+let listchars='tab: ,trail:·,extends:,precedes:'
 set colorcolumn=81,121
 
 set foldlevel=999
