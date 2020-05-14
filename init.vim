@@ -65,7 +65,7 @@ Plug 'jceb/vim-textobj-uri'
 Plug 'lucapette/vim-textobj-underscore'
 
 " Smarts                {{{2
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 Plug 'neovim/nvim-lsp'
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
@@ -114,7 +114,7 @@ set inccommand=split
 set linebreak
 let &showbreak=' ﬌  '
 set list
-let listchars='tab: ,trail:·,extends:,precedes:'
+let &listchars='tab: ,trail:·,extends:,precedes:'
 set colorcolumn=81,121
 
 set foldlevel=999
@@ -131,7 +131,7 @@ set background=dark
 let g:sonokai_style = 'atlantis'
 colorscheme sonokai
 
-set completeopt=menu,menuone,preview,noselect,noinsert
+set completeopt=menuone,preview,noselect,noinsert
 
 "#############################################################################
 "### Installed tools                                                {{{1    ##
@@ -183,6 +183,10 @@ nnoremap <leader>pp :CtrlPBuffer<CR>
 nnoremap <leader><C-T> :CtrlPTag<CR>
 nnoremap <leader>tt :CtrlPTag<CR>
 nnoremap <leader>bt :CtrlPBufTag<CR>
+
+nnoremap gp     <Plug>ReplaceWithRegisterOperator
+nnoremap gpp    <Plug>ReplaceWithRegisterLine
+xnoremap gp     <Plug>ReplaceWithRegisterVisual
 
 
 "### Autocompletion mappings
@@ -256,7 +260,7 @@ endif
 "#############################################################################
 "### Functions                                                      {{{1    ##
 "#############################################################################
-"
+
 function! TableFormat()
     let l:pos = getpos('.')
     normal! {
@@ -278,5 +282,10 @@ function! TableFormat()
 endfunction
 
 command! TableFormat call TableFormat()
+
+"#############################################################################
+"### LSP Configuration import                                       {{{1    ##
+"#############################################################################
+runtime nvim-lsp-config.vim
 
 " vim: set fdm=marker: "
