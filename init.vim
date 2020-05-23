@@ -291,7 +291,7 @@ command! TableFormat call TableFormat()
 "### LSP Configuration import                                       {{{1    ##
 "#############################################################################
 set shortmess+=c
-autocmd BufEnter * lua require'completion'.on_attach()
+autocmd BufEnter * lua pcall(function() require'completion'.on_attach() end)
 
 let g:diagnostic_enable_virtual_text = 1
 let g:diagnostic_virtual_text_prefix = ''
