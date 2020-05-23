@@ -67,6 +67,9 @@ Plug 'lucapette/vim-textobj-underscore'
 " Smarts                {{{2
 " Plug 'w0rp/ale'
 Plug 'neovim/nvim-lsp'
+Plug 'haorenW1025/completion-nvim'
+Plug 'haorenW1025/diagnostic-nvim'
+Plug 'weilbith/nvim-lsp-smag'
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
 
@@ -76,6 +79,7 @@ Plug 'tpope/vim-obsession'
 
 " Pretties              {{{2
 Plug 'Yggdroot/indentLine'
+Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
@@ -131,7 +135,7 @@ set background=dark
 let g:sonokai_style = 'atlantis'
 colorscheme sonokai
 
-set completeopt=menuone,preview,noselect,noinsert
+set completeopt=menuone,noselect,noinsert
 
 "#############################################################################
 "### Installed tools                                                {{{1    ##
@@ -191,13 +195,13 @@ xnoremap gp     <Plug>ReplaceWithRegisterVisual
 
 "### Autocompletion mappings
 " When enter is pressed, select option and insert return
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+"inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
 " Use tab to cycle through options
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-"inoremap <expr> <Nul> "\<C-x>\<C-u>\<C-p>"
+inoremap <silent><expr> <C-Space> completion#trigger_completion()
 
 "#############################################################################
 "### Plugin settings                                                {{{1    ##
@@ -286,6 +290,17 @@ command! TableFormat call TableFormat()
 "#############################################################################
 "### LSP Configuration import                                       {{{1    ##
 "#############################################################################
+set shortmess+=c
+autocmd BufEnter * lua require'completion'.on_attach()
+
+let g:diagnostic_enable_virtual_text = 1
+let g:diagnostic_virtual_text_prefix = ''
+
+call sign_define("LspDiagnosticsErrorSign", {"text": "", "texthl": "LspDiagnosticsError"})
+call sign_define("LspDiagnosticsWarningSign", {"text": "", "texthl": "LspDiagnosticsError"})
+call sign_define("LspDiagnosticsInformationSign", {"text": "", "texthl": "LspDiagnosticsError"})
+call sign_define("LspDiagnosticsHintSign", {"text": "ﯟ", "texthl": "LspDiagnosticsError"})
+
 runtime nvim-lsp-config.vim
 
 " vim: set fdm=marker: "
