@@ -1,7 +1,7 @@
 "#############################################################################
 "### Variables for use within this vimrc                            {{{1    ##
 "#############################################################################
-let s:vimdir = split(&runtimepath, ',')[0]
+let g:vimdir = split(&runtimepath, ',')[0]
 
 augroup myvimrc
     autocmd!
@@ -11,13 +11,13 @@ augroup END
 "### Plugin installation                                            {{{1    ##
 "#############################################################################
 " Load vim-plug         {{{2
-if empty(glob(s:vimdir . '/autoload/plug.vim'))
+if empty(glob(g:vimdir . '/autoload/plug.vim'))
   execute '!curl -fLo ' . s:vimdir . '/autoload/plug.vim --create-dirs ' .
     \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-call plug#begin(s:vimdir . '/plugged')
+call plug#begin(g:vimdir . '/plugged')
 
 " Colorschemes          {{{2
 Plug 'morhetz/gruvbox'
@@ -70,6 +70,7 @@ Plug 'neovim/nvim-lsp'
 Plug 'haorenW1025/completion-nvim'
 Plug 'haorenW1025/diagnostic-nvim'
 Plug 'weilbith/nvim-lsp-smag'
+Plug 'wbthomason/lsp-status.nvim'
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
 
@@ -303,6 +304,13 @@ call sign_define("LspDiagnosticsWarningSign", {"text": "", "texthl": "LspDiag
 call sign_define("LspDiagnosticsInformationSign", {"text": "", "texthl": "LspDiagnosticsError"})
 call sign_define("LspDiagnosticsHintSign", {"text": "ﯟ", "texthl": "LspDiagnosticsError"})
 
-runtime nvim-lsp-config.vim
+function LspLoadPlugins()
+    lua require'nvim-lsp-config'.do_setup()
+endfunction
+
+call LspLoadPlugins()
+
+command LspActive lua print(vim.lsp.buf.server_ready())
+command LspClientInfo lua print(vim.inspect(vim.lsp.buf_get_clients()))
 
 " vim: set fdm=marker: "
