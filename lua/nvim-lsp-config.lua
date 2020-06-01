@@ -62,14 +62,16 @@ local function on_attach_vim()
     end
 end
 
-local function lsp_test_and_load(lserver)
+local function lsp_test_and_load(lserver, settings)
     local found = false
 
     if lsp_loaded_tbl[lserver] == nil then
         lsp_loaded_tbl[lserver] = false
     end
 
-    if lsp[lserver].install_info ~= nil then
+    if lsp[lserver].install_info ~= nil
+        and lsp[lserver].install_info().binaries ~= nil
+    then
         local binaries = lsp[lserver].install_info().binaries
 
         for bin, binpath in pairs(binaries) do
@@ -83,15 +85,37 @@ local function lsp_test_and_load(lserver)
         end
     end
 
-    if found or vim.fn.executable(lsp[lserver].document_config.default_config.cmd[1]) ~= 0 then
-        lsp[lserver].setup{on_attach=on_attach_vim}
+    if found or (
+            lsp[lserver].document_config.default_config.cmd ~= nil and
+            vim.fn.executable(lsp[lserver].document_config.default_config.cmd[1]) ~= 0
+        ) or (
+            lsp[lserver].install_info ~= nil
+            and lsp[lserver].install_info().is_installed == true
+        )
+    then
+        lsp[lserver].setup{
+            on_attach=on_attach_vim,
+            settings = settings,
+        }
         lsp_loaded_tbl[lserver] = true
     end
 end
 
 --------------------------------------------------------------------------------
 -- python settings
--- local python_settings = 
+-- local python_settings =
+
+-- lua settings
+local lua_settings = {
+    Lua = {
+        diagnostics = {
+            globals = {"vim"},
+        },
+        runtime = {
+            version = "Lua 5.1",
+        }
+    }
+}
 
 --------------------------------------------------------------------------------
 
@@ -103,6 +127,7 @@ function M.do_setup()
     lsp_test_and_load('html')
     lsp_test_and_load('pyls')
     lsp_test_and_load('rust_analyzer')
+    lsp_test_and_load('sumneko_lua', lua_settings)
     lsp_test_and_load('tsserver')
     lsp_test_and_load('vimls')
 end
