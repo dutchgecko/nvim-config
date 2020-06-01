@@ -25,8 +25,9 @@ Plug 'sainnhe/sonokai'
 
 " Interface             {{{2
 Plug 'vim-airline/vim-airline'
-"Plug 'edkolev/promptline.vim'
+Plug 'edkolev/promptline.vim'
 "Plug 'edkolev/tmuxline.vim'
+Plug 'hoov/tmuxline.vim'
 
 " File management       {{{2
 Plug 'ctrlpvim/ctrlp.vim'
@@ -122,6 +123,8 @@ set colorcolumn=81,121
 
 set foldlevel=999
 set foldmethod=indent
+
+set virtualedit=block,insert
 
 set modeline
 
@@ -239,15 +242,15 @@ let g:airline_symbols.maxlinenr = ''
 let g:airline#extensions#tmuxline#enabled = 0
 
 "### Promptline ###         {{{2
-"let g:promptline_theme = 'airline_insert'
-"let g:promptline_preset = {
-"            \'a' : [ '$FISH_BIND_MODE' ],
-"            \'b' : [ promptline#slices#host(), promptline#slices#user() ],
-"            \'c' : [ promptline#slices#cwd() ],
-"            \'warn' : [ promptline#slices#last_exit_code() ],
-"            \'x' : [ promptline#slices#jobs() ],
-"            \'y' : [ promptline#slices#vcs_branch() ],
-"            \'z' : [promptline#slices#python_virtualenv() ]}
+let g:promptline_theme = 'airline'
+let g:promptline_preset = {
+            \'a' : [ '$FISH_BIND_MODE' ],
+            \'b' : [ promptline#slices#user() ],
+            \'c' : [ promptline#slices#cwd() ],
+            \'warn' : [ promptline#slices#last_exit_code() ],
+            \'x' : [ promptline#slices#git_status() ],
+            \'y' : [ promptline#slices#vcs_branch() ],
+            \'z' : [ promptline#slices#python_virtualenv() ]}
 
 "### IndentLine ###         {{{2
 let g:indentLine_char = ''
