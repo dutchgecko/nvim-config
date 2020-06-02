@@ -10,7 +10,9 @@ local function on_attach_vim()
     vim.api.nvim_command('nnoremap <silent> <buffer> ]d :NextDiagnostic<CR>')
     vim.api.nvim_command('nnoremap <silent> <buffer> [d :PrevDiagnostic<CR>')
 
-    local capabilities = vim.lsp.buf_get_clients()[1].resolved_capabilities
+    local capabilities = vim.lsp.buf_get_clients()[
+            next(vim.lsp.buf_get_clients())
+        ].resolved_capabilities
     local function create_conditional_map(keys, funcname)
         vim.api.nvim_command(
             'nnoremap <silent> <buffer> '
