@@ -141,6 +141,13 @@ colorscheme sonokai
 set completeopt=menuone,noselect,noinsert
 
 "#############################################################################
+"### GUI Settings                                                   {{{1    ##
+"#############################################################################
+let &guifont = 'JetBrainsMono Nerd Font Mono:h12'
+let g:neovide_refresh_rate = 165
+let g:neovide_cursor_animation_length = 0.04
+
+"#############################################################################
 "### Installed tools                                                {{{1    ##
 "#############################################################################
 if executable('rg')
