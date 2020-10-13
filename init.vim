@@ -251,7 +251,7 @@ let g:airline#extensions#tmuxline#enabled = 0
 
 "### Promptline ###         {{{2
 let g:promptline_theme = 'airline'
-let g:promptline_preset = {
+silent! let g:promptline_preset = {
             \'a' : [ '$FISH_BIND_MODE' ],
             \'b' : [ promptline#slices#user() ],
             \'c' : [ promptline#slices#cwd() ],
