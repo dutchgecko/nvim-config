@@ -83,6 +83,9 @@ Plug 'Yggdroot/indentLine'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'ryanoasis/vim-devicons'
 
+" External stuff        {{{2
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+
 call plug#end()
 
 "#############################################################################
@@ -270,6 +273,55 @@ if executable('fd')
     let g:ctrlp_user_command = 'fd --type f --color never "" %s'
     let g:ctrlp_use_caching = 0
 endif
+
+"### Firenvim ###           {{{2
+let g:firenvim_config = {
+            \ 'globalSettings': {
+                \ '<C-w>': 'noop',
+            \ },
+            \ 'localSettings': {
+                \ '.*': {
+                    \ 'cmdline': 'firenvim',
+                    \ 'priority': 0,
+                    \ 'selector': 'textarea:not([readonly]), div[role="textbox"]',
+                    \ 'takeover': 'always',
+                \ },
+                \ 'https?://(www\.)?twitch\.tv/': {
+                    \ 'selector': 'textarea:not([readonly]):not([class="tw-textarea--no-resize"])',
+                    \ 'takeover': 'never',
+                    \ 'priority': 10,
+                \ },
+                \ 'https?://docs.google.com/': {
+                    \ 'takeover': 'never',
+                    \ 'priority': 10,
+                \ },
+            \ }
+        \ }
+
+function! s:IsFirenvimActive(event) abort
+    if !exists('*nvim_get_chan_info')
+        return 0
+    endif
+    let l:ui = nvim_get_chan_info(a:event.chan)
+    return has_key(l:ui, 'client') &&
+                \ has_key(l:ui.client, 'name') &&
+                \ l:ui.client.name =~? 'Firenvim'
+endfunction
+
+function! OnUIEnterFirenvim(event) abort
+    if s:IsFirenvimActive(a:event)
+        " Place settings here
+        set laststatus=0
+        set scrolloff=0
+        set showtabline=0
+        let &guifont = 'JetBrainsMono Nerd Font Mono:h10'
+    endif
+endfunction
+
+autocmd UIEnter * call OnUIEnterFirenvim(deepcopy(v:event))
+
+autocmd myvimrc BufEnter reddit.com_*.txt set filetype=markdown
+autocmd myvimrc BufEnter github.com_*.txt set filetype=markdown
 
 "#############################################################################
 "### Functions                                                      {{{1    ##
