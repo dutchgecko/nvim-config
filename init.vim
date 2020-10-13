@@ -243,6 +243,8 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 
+" Custom icon for vim-obsession
+let g:airline#extensions#obsession#indicator_text = ''
 " Remove icon for total number of lines in buffer
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
