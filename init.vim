@@ -73,6 +73,7 @@ Plug 'weilbith/nvim-lsp-smag'
 Plug 'wbthomason/lsp-status.nvim'
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
+Plug 'nvim-treesitter/nvim-treesitter'
 
 " Usability             {{{2
 Plug 'Konfekt/FastFold'
@@ -373,5 +374,13 @@ call LspLoadPlugins()
 
 command LspActive lua print(vim.lsp.buf.server_ready())
 command LspClientInfo lua print(vim.inspect(vim.lsp.buf_get_clients()))
+
+"#############################################################################
+"### Treesitter Configuration import                                {{{1    ##
+"#############################################################################
+lua require'nvim-treesitter-config'
+
+" highlighting
+highlight! link TSConstructor TSType
 
 " vim: set fdm=marker: "
