@@ -323,8 +323,8 @@ endfunction
 
 autocmd UIEnter * call OnUIEnterFirenvim(deepcopy(v:event))
 
-autocmd myvimrc BufEnter reddit.com_*.txt set filetype=markdown
-autocmd myvimrc BufEnter github.com_*.txt set filetype=markdown
+autocmd myvimrc BufEnter *reddit.com_*.txt set filetype=markdown
+autocmd myvimrc BufEnter *github.com_*.txt set filetype=markdown
 
 "#############################################################################
 "### Functions                                                      {{{1    ##
