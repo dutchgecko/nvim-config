@@ -130,6 +130,7 @@ function M.do_setup()
     lsp_test_and_load('pyls')
     lsp_test_and_load('rust_analyzer')
     lsp_test_and_load('sumneko_lua', lua_settings)
+    lsp_test_and_load('texlab')
     lsp_test_and_load('tsserver')
     lsp_test_and_load('vimls')
 end
