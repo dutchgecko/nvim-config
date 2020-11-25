@@ -176,6 +176,9 @@ inoremap <C-l> <C-o><C-l>
 
 nnoremap <F5> :make<CR>
 
+nnoremap <leader>se :setlocal spell spelllang=en_gb<CR>
+nnoremap <leader>sd :setlocal spell spelllang=nl<CR>
+
 " hotkey to change diff commit for vim-gitgutter
 function GitDiffBase()
     call inputsave()
