@@ -47,7 +47,6 @@ endif
 " Languages             {{{2
 Plug 'plasticboy/vim-markdown'
 Plug 'kh3phr3n/python-syntax'
-Plug 'sheerun/vim-polyglot'
 
 " Editing               {{{2
 Plug 'vim-scripts/ReplaceWithRegister'
