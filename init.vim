@@ -67,7 +67,6 @@ Plug 'lucapette/vim-textobj-underscore'
 " Plug 'w0rp/ale'
 Plug 'neovim/nvim-lsp'
 Plug 'haorenW1025/completion-nvim'
-Plug 'haorenW1025/diagnostic-nvim'
 Plug 'weilbith/nvim-lsp-smag'
 Plug 'wbthomason/lsp-status.nvim'
 Plug 'tpope/vim-dispatch'
@@ -223,20 +222,6 @@ inoremap <silent><expr> <C-Space> completion#trigger_completion()
 "### Plugin settings                                                {{{1    ##
 "#############################################################################
 
-"### ALE ###                {{{2
-let g:ale_set_loclist = 1
-let g:ale_set_quickfix = 0
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_insert_leave = 1
-let g:ale_sign_error = ''
-let g:ale_sign_style_error = '⚡'
-let g:ale_sign_warning = ''
-let g:ale_sign_style_warning = ''
-let g:ale_sign_info = 'כֿ'
-
-" Autocomplete
-let g:ale_completion_enabled = 1
-
 "### Airline ###            {{{2
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#whitespace#enabled = 0
@@ -328,6 +313,9 @@ autocmd UIEnter * call OnUIEnterFirenvim(deepcopy(v:event))
 autocmd myvimrc BufEnter *reddit.com_*.txt set filetype=markdown
 autocmd myvimrc BufEnter *github.com_*.txt set filetype=markdown
 
+"### Gitgutter ###           {{{2
+let g:gitgutter_sign_priority = 1
+
 "#############################################################################
 "### Functions                                                      {{{1    ##
 "#############################################################################
@@ -358,24 +346,32 @@ command! TableFormat call TableFormat()
 "### LSP Configuration import                                       {{{1    ##
 "#############################################################################
 set shortmess+=c
-autocmd BufEnter * lua pcall(function() require'completion'.on_attach() end)
-
 let g:diagnostic_enable_virtual_text = 1
 let g:diagnostic_virtual_text_prefix = ''
 
-call sign_define("LspDiagnosticsErrorSign", {"text": "", "texthl": "LspDiagnosticsError"})
-call sign_define("LspDiagnosticsWarningSign", {"text": "", "texthl": "LspDiagnosticsError"})
-call sign_define("LspDiagnosticsInformationSign", {"text": "", "texthl": "LspDiagnosticsError"})
-call sign_define("LspDiagnosticsHintSign", {"text": "ﯟ", "texthl": "LspDiagnosticsError"})
+call sign_define("LspDiagnosticsSignError", {"text": "", "texthl": "LspDiagnosticsSignError"})
+call sign_define("LspDiagnosticsSignWarning", {"text": "", "texthl": "LspDiagnosticsSignWarning"})
+call sign_define("LspDiagnosticsSignInformation", {"text": "", "texthl": "LspDiagnosticsSignInformation"})
+call sign_define("LspDiagnosticsSignHint", {"text": "ﯟ", "texthl": "LspDiagnosticsSignHint"})
+
+nnoremap ]d <cmd>lua vim.lsp.diagnostic.goto_next { wrap = false }<CR>
+nnoremap [d <cmd>lua vim.lsp.diagnostic.goto_prev { wrap = false }<CR>
 
 function LspLoadPlugins()
     lua require'nvim-lsp-config'.do_setup()
+    lua require'nvim-lsp-config'.setup_handlers()
 endfunction
 
 call LspLoadPlugins()
 
 command LspActive lua print(vim.lsp.buf.server_ready())
 command LspClientInfo lua print(vim.inspect(vim.lsp.buf_get_clients()))
+
+function OpenDiagnostics()
+    lua vim.lsp.diagnostic.set_loclist()
+    lopen
+endfunction
+command Diagnostics call OpenDiagnostics()
 
 "#############################################################################
 "### Treesitter Configuration import                                {{{1    ##

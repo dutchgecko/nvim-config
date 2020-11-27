@@ -5,11 +5,6 @@ local M = {}
 local lsp_loaded_tbl = {}
 
 local function on_attach_vim()
-    require'diagnostic'.on_attach()
-
-    vim.api.nvim_command('nnoremap <silent> <buffer> ]d :NextDiagnostic<CR>')
-    vim.api.nvim_command('nnoremap <silent> <buffer> [d :PrevDiagnostic<CR>')
-
     local capabilities = vim.lsp.buf_get_clients()[
             next(vim.lsp.buf_get_clients())
         ].resolved_capabilities
@@ -133,6 +128,20 @@ function M.do_setup()
     lsp_test_and_load('texlab')
     lsp_test_and_load('tsserver')
     lsp_test_and_load('vimls')
+end
+
+
+function M.setup_handlers()
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+        vim.lsp.diagnostic.on_publish_diagnostics, {
+            virtual_text = true,
+            signs = true,
+            update_in_insert = true,
+            virtual_text = {
+                prefix = '',
+            },
+        }
+    )
 end
 
 return M
