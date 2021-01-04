@@ -47,6 +47,7 @@ endif
 " Languages             {{{2
 Plug 'plasticboy/vim-markdown'
 Plug 'kh3phr3n/python-syntax'
+Plug 'dag/vim-fish'
 
 " Editing               {{{2
 Plug 'vim-scripts/ReplaceWithRegister'
