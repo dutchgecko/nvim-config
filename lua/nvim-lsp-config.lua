@@ -2,8 +2,6 @@ local lsp = require'lspconfig'
 
 local M = {}
 
-local lsp_loaded_tbl = {}
-
 local function on_attach_vim()
     local capabilities = vim.lsp.buf_get_clients()[
             next(vim.lsp.buf_get_clients())
@@ -59,42 +57,22 @@ local function on_attach_vim()
     end
 end
 
-local function lsp_test_and_load(lserver, settings)
-    local found = false
-
-    if lsp_loaded_tbl[lserver] == nil then
-        lsp_loaded_tbl[lserver] = false
-    end
-
-    if lsp[lserver].install_info ~= nil
-        and lsp[lserver].install_info().binaries ~= nil
+local function lsp_test_and_load(lserver, settings, cmd)
+    local top_cmd = nil
+    if cmd ~= nil
     then
-        local binaries = lsp[lserver].install_info().binaries
-
-        for bin, binpath in pairs(binaries) do
-            if
-                vim.fn.executable(binpath) ~= 0
-                or vim.fn.executable(bin) ~= 0
-            then
-                found = true
-                break
-            end
-        end
+        top_cmd = cmd
+    else
+        top_cmd = lsp[lserver].document_config.default_config.cmd
     end
 
-    if found or (
-            lsp[lserver].document_config.default_config.cmd ~= nil and
-            vim.fn.executable(lsp[lserver].document_config.default_config.cmd[1]) ~= 0
-        ) or (
-            lsp[lserver].install_info ~= nil
-            and lsp[lserver].install_info().is_installed == true
-        )
+    if top_cmd ~= nil and vim.fn.executable(top_cmd[1]) ~= 0
     then
         lsp[lserver].setup{
+            cmd=top_cmd,
             on_attach=on_attach_vim,
             settings = settings,
         }
-        lsp_loaded_tbl[lserver] = true
     end
 end
 
@@ -113,28 +91,41 @@ local lua_settings = {
         }
     }
 }
+local function get_lua_cmd()
+    local sumneko_root_path = vim.fn.expand('~/build/lua-language-server')
+    return {
+        sumneko_root_path..'/bin/Linux/lua-language-server',
+        '-E',
+        sumneko_root_path..'/main.lua'
+    }
+end
 
 --------------------------------------------------------------------------------
 
 function M.do_setup()
-    lsp_test_and_load('bashls')
-    lsp_test_and_load('clangd')
-    lsp_test_and_load('cssls')
-    lsp_test_and_load('dockerls')
-    lsp_test_and_load('html')
-    lsp_test_and_load('pyls')
-    lsp_test_and_load('rust_analyzer')
-    lsp_test_and_load('sumneko_lua', lua_settings)
-    lsp_test_and_load('texlab')
-    lsp_test_and_load('tsserver')
-    lsp_test_and_load('vimls')
+    lsp_test_and_load('bashls')                 -- npm install -g bash-language-server
+    lsp_test_and_load('clangd')                 -- sudo apt install clangd
+    lsp_test_and_load('cmake')                  -- pip install --upgrade cmake-language-server
+    lsp_test_and_load('cssls')                  -- npm install -g vscode-css-languageserver-bin
+    lsp_test_and_load('dockerls')               -- npm install -g dockerfile-language-server-nodejs
+    lsp_test_and_load('html')                   -- npm install -g vscode-html-languageserver-bin
+    lsp_test_and_load('intelephense')           -- PHP -- npm install -g intelephense
+    lsp_test_and_load('jsonls')                 -- npm install -g vscode-json-languageserver
+    lsp_test_and_load('pyls')                   -- pip install --upgrade python-language-server
+    lsp_test_and_load('rust_analyzer')          -- https://github.com/rust-analyzer/rust-analyzer/releases
+    lsp_test_and_load('sqlls')                  -- npm install -g sql-language-server
+    lsp_test_and_load('sumneko_lua', lua_settings, get_lua_cmd())
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#sumneko_lua
+    lsp_test_and_load('texlab')                 -- cargo install --git https://github.com/latex-lsp/texlab.git
+    lsp_test_and_load('tsserver')               -- npm install -g typescript typescript-language-server
+    lsp_test_and_load('vimls')                  -- npm install -g vim-language-server
+    lsp_test_and_load('yamlls')                 -- npm install -g yaml-language-server
 end
 
 
 function M.setup_handlers()
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
         vim.lsp.diagnostic.on_publish_diagnostics, {
-            virtual_text = true,
             signs = true,
             update_in_insert = true,
             virtual_text = {
