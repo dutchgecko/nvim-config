@@ -144,6 +144,13 @@ colorscheme sonokai
 set completeopt=menuone,noselect,noinsert
 
 "#############################################################################
+"### Colorscheme and highlighting adjustments                       {{{1    ##
+"#############################################################################
+highlight link TSVariable Orange
+highlight link TSPunctBracket Purple
+highlight link TSPunctSpecial Purple
+
+"#############################################################################
 "### GUI Settings                                                   {{{1    ##
 "#############################################################################
 let &guifont = 'JetBrainsMono Nerd Font Mono:h12'
