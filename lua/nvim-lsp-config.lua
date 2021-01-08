@@ -19,6 +19,8 @@ local function on_attach_vim()
 
     if capabilities.declaration then
         create_conditional_map('gd', 'declaration')
+    elseif capabilities.goto_definition then
+        create_conditional_map('gd', 'definition')
     end
     if capabilities.document_symbol then
         create_conditional_map('g0', 'document_symbol')
