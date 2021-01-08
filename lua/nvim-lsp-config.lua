@@ -3,6 +3,7 @@ local lsp = require'lspconfig'
 local M = {}
 
 local function on_attach_vim()
+    -- custom on_attach calls
     local capabilities = vim.lsp.buf_get_clients()[
             next(vim.lsp.buf_get_clients())
         ].resolved_capabilities

@@ -141,8 +141,6 @@ set background=dark
 let g:sonokai_style = 'atlantis'
 colorscheme sonokai
 
-set completeopt=menuone,noselect,noinsert
-
 "#############################################################################
 "### Colorscheme and highlighting adjustments                       {{{1    ##
 "#############################################################################
@@ -223,8 +221,6 @@ xnoremap gp     <Plug>ReplaceWithRegisterVisual
 " Use tab to cycle through options
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-inoremap <silent><expr> <C-Space> completion#trigger_completion()
 
 "#############################################################################
 "### Plugin settings                                                {{{1    ##
@@ -353,9 +349,31 @@ command! TableFormat call TableFormat()
 "#############################################################################
 "### LSP Configuration import                                       {{{1    ##
 "#############################################################################
+"
+"### completion-nvim        {{{2
+autocmd myvimrc BufEnter * lua require'completion'.on_attach()
+
+inoremap <silent> <C-Space> <Plug>(completion_trigger)
+
+set completeopt=menuone,noselect,noinsert
 set shortmess+=c
+
+let g:completion_enable_auto_popup = 1
+let g:completion_enable_auto_hover = 1
+let g:completion_enable_auto_signature = 1
+let g:completion_auto_change_source = 1
+
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
+let g:completion_matching_smart_case = 1
+
+"### diagnostics            {{{2
 let g:diagnostic_enable_virtual_text = 1
 let g:diagnostic_virtual_text_prefix = ''
+
+augroup myvimrc
+    autocmd BufEnter * let g:completion_trigger_character = ['.']
+    autocmd BufEnter *.c,*.cpp let g:completion_trigger_character = ['.', '::']
+augroup end
 
 call sign_define("LspDiagnosticsSignError", {"text": "", "texthl": "LspDiagnosticsSignError"})
 call sign_define("LspDiagnosticsSignWarning", {"text": "", "texthl": "LspDiagnosticsSignWarning"})
