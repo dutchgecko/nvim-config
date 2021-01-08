@@ -67,7 +67,7 @@ Plug 'lucapette/vim-textobj-underscore'
 " Smarts                {{{2
 " Plug 'w0rp/ale'
 Plug 'neovim/nvim-lsp'
-Plug 'haorenW1025/completion-nvim'
+Plug 'nvim-lua/completion-nvim'
 Plug 'weilbith/nvim-lsp-smag'
 Plug 'wbthomason/lsp-status.nvim'
 Plug 'tpope/vim-dispatch'
