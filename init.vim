@@ -26,12 +26,11 @@ Plug 'sainnhe/sonokai'
 " Interface             {{{2
 Plug 'vim-airline/vim-airline'
 Plug 'edkolev/promptline.vim'
-"Plug 'edkolev/tmuxline.vim'
 Plug 'hoov/tmuxline.vim'
 
 " File management       {{{2
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'scrooloose/nerdtree'
+Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
 
 " Version control       {{{2
 Plug 'tpope/vim-fugitive'
@@ -170,7 +169,7 @@ set tags=./tags;/       " search in parent directories for tags file
 "#############################################################################
 "### Mappings                                                       {{{1    ##
 "#############################################################################
-nnoremap <leader>te :NERDTreeToggle<cr>
+nnoremap <leader>te <cmd>CHADopen<cr>
 nnoremap <leader>tl :TagbarToggle<cr>
 
 nnoremap <silent> <C-h> :nohlsearch<CR>
@@ -319,6 +318,77 @@ autocmd myvimrc BufEnter *github.com_*.txt set filetype=markdown
 
 "### Gitgutter ###           {{{2
 let g:gitgutter_sign_priority = 1
+
+"### CHADTree ###               {{{2
+let s:palette = sonokai#get_palette(g:sonokai_style)
+let g:chadtree_colours = {
+    \ "8_bit": {
+        \ "Black": {
+            \ "hl24": s:palette.black[0],
+            \ "hl8": "Black",
+        \ },
+        \ "Blue": {
+            \ "hl24": s:palette.blue[0],
+            \ "hl8": "Blue",
+        \ },
+        \ "Cyan": {
+            \ "hl24": s:palette.orange[0],
+            \ "hl8": "Cyan",
+        \ },
+        \ "Green": {
+            \ "hl24": s:palette.green[0],
+            \ "hl8": "Green",
+        \ },
+        \ "Magenta": {
+            \ "hl24": s:palette.purple[0],
+            \ "hl8": "Magenta",
+        \ },
+        \ "Red": {
+            \ "hl24": s:palette.red[0],
+            \ "hl8": "Red",
+        \ },
+        \ "White": {
+            \ "hl24": s:palette.fg[0],
+            \ "hl8": "White",
+        \ },
+        \ "Yellow": {
+            \ "hl24": s:palette.yellow[0],
+            \ "hl8": "Yellow",
+        \ },
+        \ "BrightBlack": {
+            \ "hl24": s:palette.black[0],
+            \ "hl8": "Black",
+        \ },
+        \ "BrightBlue": {
+            \ "hl24": s:palette.blue[0],
+            \ "hl8": "Blue",
+        \ },
+        \ "BrightCyan": {
+            \ "hl24": s:palette.orange[0],
+            \ "hl8": "Cyan",
+        \ },
+        \ "BrightGreen": {
+            \ "hl24": s:palette.green[0],
+            \ "hl8": "Green",
+        \ },
+        \ "BrightMagenta": {
+            \ "hl24": s:palette.purple[0],
+            \ "hl8": "Magenta",
+        \ },
+        \ "BrightRed": {
+            \ "hl24": s:palette.red[0],
+            \ "hl8": "Red",
+        \ },
+        \ "BrightWhite": {
+            \ "hl24": s:palette.fg[0],
+            \ "hl8": "White",
+        \ },
+        \ "BrightYellow": {
+            \ "hl24": s:palette.yellow[0],
+            \ "hl8": "Yellow",
+        \ },
+    \ }
+\ }
 
 "#############################################################################
 "### Functions                                                      {{{1    ##
