@@ -6,4 +6,7 @@ configs.setup {
     highlight = {
         enable = true,
     },
+    indent = {
+        enable = false
+    },
 }
