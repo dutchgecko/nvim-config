@@ -65,12 +65,12 @@ Plug 'lucapette/vim-textobj-underscore'
 " Smarts                {{{2
 " Plug 'w0rp/ale'
 Plug 'neovim/nvim-lsp'
-Plug 'nvim-lua/completion-nvim'
 Plug 'weilbith/nvim-lsp-smag'
 Plug 'wbthomason/lsp-status.nvim'
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'hrsh7th/nvim-compe'
 
 " Usability             {{{2
 Plug 'Konfekt/FastFold'
@@ -419,30 +419,25 @@ command! TableFormat call TableFormat()
 "### LSP Configuration import                                       {{{1    ##
 "#############################################################################
 "
-"### completion-nvim        {{{2
-autocmd myvimrc BufEnter * lua require'completion'.on_attach()
+"### completion
+set completeopt=menu,menuone,noselect,noinsert
+let g:compe = {}
+let g:compe.enabled = v:true
 
-inoremap <silent> <C-Space> <Plug>(completion_trigger)
+let g:compe.source = {}
+let g:compe.source.path = v:true
+let g:compe.source.buffer = v:true
+let g:compe.source.nvim_lsp = v:true
+let g:compe.source.nvim_lua = v:true
+let g:compe.source.vsnip = v:false
 
-set completeopt=menuone,noselect,noinsert
-set shortmess+=c
-
-let g:completion_enable_auto_popup = 1
-let g:completion_enable_auto_hover = 1
-let g:completion_enable_auto_signature = 1
-let g:completion_auto_change_source = 1
-
-let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
-let g:completion_matching_smart_case = 1
+inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <CR> compe#confirm('<CR>')
+inoremap <silent><expr> <C-e> compe#close('<C-e>')
 
 "### diagnostics            {{{2
 let g:diagnostic_enable_virtual_text = 1
 let g:diagnostic_virtual_text_prefix = ''
-
-augroup myvimrc
-    autocmd BufEnter * let g:completion_trigger_character = ['.']
-    autocmd BufEnter *.c,*.cpp let g:completion_trigger_character = ['.', '::']
-augroup end
 
 call sign_define("LspDiagnosticsSignError", {"text": "", "texthl": "LspDiagnosticsSignError"})
 call sign_define("LspDiagnosticsSignWarning", {"text": "", "texthl": "LspDiagnosticsSignWarning"})
