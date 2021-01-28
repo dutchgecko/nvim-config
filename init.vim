@@ -70,6 +70,7 @@ Plug 'wbthomason/lsp-status.nvim'
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'hrsh7th/nvim-compe'
 
 " Usability             {{{2
 Plug 'Konfekt/FastFold'
@@ -418,6 +419,22 @@ command! TableFormat call TableFormat()
 "### LSP Configuration import                                       {{{1    ##
 "#############################################################################
 "
+"### completion
+set completeopt=menu,menuone,noselect,noinsert
+let g:compe = {}
+let g:compe.enabled = v:true
+
+let g:compe.source = {}
+let g:compe.source.path = v:true
+let g:compe.source.buffer = v:true
+let g:compe.source.nvim_lsp = v:true
+let g:compe.source.nvim_lua = v:true
+let g:compe.source.vsnip = v:false
+
+inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <CR> compe#confirm('<CR>')
+inoremap <silent><expr> <C-e> compe#close('<C-e>')
+
 "### diagnostics            {{{2
 let g:diagnostic_enable_virtual_text = 1
 let g:diagnostic_virtual_text_prefix = ''
