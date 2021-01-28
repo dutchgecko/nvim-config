@@ -40,7 +40,6 @@ Plug 'rbong/vim-flog'
 " Tags                  {{{2
 if executable('ctags')
     Plug 'majutsushi/tagbar'
-    Plug 'ludovicchabant/vim-gutentags'
 endif
 
 " Languages             {{{2
