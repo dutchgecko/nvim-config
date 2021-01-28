@@ -65,7 +65,6 @@ Plug 'lucapette/vim-textobj-underscore'
 " Smarts                {{{2
 " Plug 'w0rp/ale'
 Plug 'neovim/nvim-lsp'
-Plug 'nvim-lua/completion-nvim'
 Plug 'weilbith/nvim-lsp-smag'
 Plug 'wbthomason/lsp-status.nvim'
 Plug 'tpope/vim-dispatch'
@@ -419,30 +418,9 @@ command! TableFormat call TableFormat()
 "### LSP Configuration import                                       {{{1    ##
 "#############################################################################
 "
-"### completion-nvim        {{{2
-autocmd myvimrc BufEnter * lua require'completion'.on_attach()
-
-inoremap <silent> <C-Space> <Plug>(completion_trigger)
-
-set completeopt=menuone,noselect,noinsert
-set shortmess+=c
-
-let g:completion_enable_auto_popup = 1
-let g:completion_enable_auto_hover = 1
-let g:completion_enable_auto_signature = 1
-let g:completion_auto_change_source = 1
-
-let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
-let g:completion_matching_smart_case = 1
-
 "### diagnostics            {{{2
 let g:diagnostic_enable_virtual_text = 1
 let g:diagnostic_virtual_text_prefix = ''
-
-augroup myvimrc
-    autocmd BufEnter * let g:completion_trigger_character = ['.']
-    autocmd BufEnter *.c,*.cpp let g:completion_trigger_character = ['.', '::']
-augroup end
 
 call sign_define("LspDiagnosticsSignError", {"text": "", "texthl": "LspDiagnosticsSignError"})
 call sign_define("LspDiagnosticsSignWarning", {"text": "", "texthl": "LspDiagnosticsSignWarning"})
