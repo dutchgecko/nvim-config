@@ -37,11 +37,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'rbong/vim-flog'
 
-" Tags                  {{{2
-if executable('ctags')
-    Plug 'majutsushi/tagbar'
-endif
-
 " Languages             {{{2
 Plug 'plasticboy/vim-markdown'
 Plug 'kh3phr3n/python-syntax'
@@ -63,7 +58,6 @@ Plug 'jceb/vim-textobj-uri'
 Plug 'lucapette/vim-textobj-underscore'
 
 " Smarts                {{{2
-" Plug 'w0rp/ale'
 Plug 'neovim/nvim-lsp'
 Plug 'weilbith/nvim-lsp-smag'
 Plug 'wbthomason/lsp-status.nvim'
@@ -72,6 +66,7 @@ Plug 'radenling/vim-dispatch-neovim'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'hrsh7th/nvim-compe'
 Plug 'alexaandru/nvim-lspupdate'
+Plug 'liuchengxu/vista.vim'
 
 " Usability             {{{2
 Plug 'Konfekt/FastFold'
@@ -170,7 +165,7 @@ set tags=./tags;/       " search in parent directories for tags file
 "### Mappings                                                       {{{1    ##
 "#############################################################################
 nnoremap <leader>te <cmd>CHADopen<cr>
-nnoremap <leader>tl :TagbarToggle<cr>
+nnoremap <leader>tl :Vista!!<cr>
 
 nnoremap <silent> <C-h> :nohlsearch<CR>
 nnoremap <C-J> o<ESC>
@@ -389,6 +384,32 @@ let g:chadtree_colours = {
         \ },
     \ }
 \ }
+
+"### Vista.vim ###               {{{2
+let g:vista_executive_for = {
+    \ 'sh': 'nvim_lsp',
+    \ 'c': 'nvim_lsp',
+    \ 'cpp': 'nvim_lsp',
+    \ 'cmake': 'nvim_lsp',
+    \ 'css': 'nvim_lsp',
+    \ 'dockerfile': 'nvim_lsp',
+    \ 'html': 'nvim_lsp',
+    \ 'php': 'nvim_lsp',
+    \ 'json': 'nvim_lsp',
+    \ 'python': 'nvim_lsp',
+    \ 'rust': 'nvim_lsp',
+    \ 'sql': 'nvim_lsp',
+    \ 'lua': 'nvim_lsp',
+    \ 'tex': 'nvim_lsp',
+    \ 'js': 'nvim_lsp',
+    \ 'yaml': 'nvim_lsp',
+    \ 'vim': 'ctags',
+    \ 'markdown': 'toc',
+\ }
+
+let g:vista#renderer#enable_icon = 1
+let g:vista_icon_indent = ["╰─ ", "├─ "]
+let g:vista_echo_cursor_strategy = 'floating_win'
 
 "#############################################################################
 "### Functions                                                      {{{1    ##
