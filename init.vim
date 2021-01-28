@@ -64,6 +64,7 @@ Plug 'wbthomason/lsp-status.nvim'
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/playground'
 Plug 'hrsh7th/nvim-compe'
 Plug 'alexaandru/nvim-lspupdate'
 Plug 'liuchengxu/vista.vim'
@@ -133,14 +134,16 @@ set mouse=a
 set termguicolors
 set background=dark
 let g:sonokai_style = 'atlantis'
+let g:sonokai_enable_italic = 1
 colorscheme sonokai
 
 "#############################################################################
 "### Colorscheme and highlighting adjustments                       {{{1    ##
 "#############################################################################
-highlight link TSVariable Orange
+"highlight link TSVariable White
 highlight link TSPunctBracket Purple
 highlight link TSPunctSpecial Purple
+highlight link TSType Blue
 
 "#############################################################################
 "### GUI Settings                                                   {{{1    ##
