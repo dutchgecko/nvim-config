@@ -71,6 +71,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'hrsh7th/nvim-compe'
+Plug 'alexaandru/nvim-lspupdate'
 
 " Usability             {{{2
 Plug 'Konfekt/FastFold'
