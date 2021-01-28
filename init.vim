@@ -426,11 +426,12 @@ let g:compe = {}
 let g:compe.enabled = v:true
 
 let g:compe.source = {}
-let g:compe.source.path = v:true
-let g:compe.source.buffer = v:true
-let g:compe.source.nvim_lsp = v:true
-let g:compe.source.nvim_lua = v:true
+let g:compe.source.path = {'menu': ''}
+let g:compe.source.buffer = {'menu': ''}
+let g:compe.source.nvim_lsp = {'menu': ''}
+let g:compe.source.nvim_lua = {'menu': ''}
 let g:compe.source.vsnip = v:false
+let g:compe.source.tags = v:false
 
 inoremap <silent><expr> <C-Space> compe#complete()
 inoremap <silent><expr> <CR> compe#confirm('<CR>')
