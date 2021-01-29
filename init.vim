@@ -305,7 +305,7 @@ function! OnUIEnterFirenvim(event) abort
         set laststatus=0
         set scrolloff=0
         set showtabline=0
-        let &guifont = 'JetBrainsMono Nerd Font Mono:h10'
+        let &guifont = 'JetBrainsMono Nerd Font Mono:h9'
     endif
 endfunction
 
