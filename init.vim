@@ -140,10 +140,17 @@ colorscheme sonokai
 "#############################################################################
 "### Colorscheme and highlighting adjustments                       {{{1    ##
 "#############################################################################
-"highlight link TSVariable White
+highlight link TSConstructor TSType
 highlight link TSPunctBracket Purple
 highlight link TSPunctSpecial Purple
 highlight link TSType Blue
+
+if !has('gui')
+    highlight ErrorText cterm=italic gui=italic
+    highlight WarningText cterm=italic gui=italic
+    highlight InfoText cterm=italic gui=italic
+    highlight HintText cterm=italic gui=italic
+endif
 
 "#############################################################################
 "### GUI Settings                                                   {{{1    ##
@@ -445,7 +452,7 @@ command! TableFormat call TableFormat()
 "#############################################################################
 "
 "### completion
-set completeopt=menu,menuone,noselect,noinsert
+set completeopt=menu,menuone,noselect
 let g:compe = {}
 let g:compe.enabled = v:true
 
@@ -472,6 +479,7 @@ call sign_define("LspDiagnosticsSignHint", {"text": "ﯟ", "texthl": "LspDiagnos
 
 nnoremap ]d <cmd>lua vim.lsp.diagnostic.goto_next { wrap = false }<CR>
 nnoremap [d <cmd>lua vim.lsp.diagnostic.goto_prev { wrap = false }<CR>
+nnoremap <leader><leader> <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
 
 function LspLoadPlugins()
     lua require'nvim-lsp-config'.do_setup()
@@ -493,8 +501,5 @@ command Diagnostics call OpenDiagnostics()
 "### Treesitter Configuration import                                {{{1    ##
 "#############################################################################
 lua require'nvim-treesitter-config'
-
-" highlighting
-highlight! link TSConstructor TSType
 
 " vim: set fdm=marker: "
