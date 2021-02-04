@@ -66,6 +66,7 @@ Plug 'radenling/vim-dispatch-neovim'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/playground'
 Plug 'hrsh7th/nvim-compe'
+Plug 'onsails/lspkind-nvim'
 Plug 'alexaandru/nvim-lspupdate'
 Plug 'liuchengxu/vista.vim'
 
