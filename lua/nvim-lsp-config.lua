@@ -1,11 +1,32 @@
-local lsp = require'lspconfig'
+local lsp = require 'lspconfig'
+local lsp_status = require 'lsp-status'
 
 local M = {}
 
-local function on_attach_vim()
+-- lsp_status setup
+local kind_labels_mt = {__index = function(_, k) return k end}
+local kind_labels = {}
+setmetatable(kind_labels, kind_labels_mt)
+
+lsp_status.register_progress()
+lsp_status.config({
+    kind_labels = kind_labels,
+    indicator_errors = "",
+    indicator_warnings = "",
+    indicator_info = "",
+    indicator_hint = "ﯟ",
+    indicator_ok = "",
+    status_symbol = "",
+})
+
+local function on_attach(client, buffer)
     -- custom on_attach calls
 
-    require('lspkind').init()
+    require('lspkind').init({
+        with_text = false,
+    })
+
+    lsp_status.on_attach(client, buffer)
 
     local capabilities = vim.lsp.buf_get_clients()[
             next(vim.lsp.buf_get_clients())
@@ -76,8 +97,9 @@ local function lsp_test_and_load(lserver, settings, cmd)
     then
         lsp[lserver].setup{
             cmd=top_cmd,
-            on_attach=on_attach_vim,
+            on_attach=on_attach,
             settings = settings,
+            capabilities = vim.tbl_extend("keep", lsp[lserver].capabilities or {}, lsp_status.capabilities),
         }
     end
 end

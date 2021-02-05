@@ -60,7 +60,6 @@ Plug 'lucapette/vim-textobj-underscore'
 " Smarts                {{{2
 Plug 'neovim/nvim-lsp'
 Plug 'weilbith/nvim-lsp-smag'
-Plug 'wbthomason/lsp-status.nvim'
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'nvim-treesitter/nvim-treesitter'
@@ -69,6 +68,7 @@ Plug 'hrsh7th/nvim-compe'
 Plug 'onsails/lspkind-nvim'
 Plug 'alexaandru/nvim-lspupdate'
 Plug 'liuchengxu/vista.vim'
+Plug 'nvim-lua/lsp-status.nvim'
 
 " Usability             {{{2
 Plug 'Konfekt/FastFold'
@@ -250,6 +250,16 @@ let g:airline_symbols.maxlinenr = ''
 
 " Don't auto-invoke Tmuxline
 let g:airline#extensions#tmuxline#enabled = 0
+
+" Replace built-in LSP extension with LSPStatus plugin
+function! LspStatus() abort
+    let status = luaeval('require("lsp-status").status()')
+    return trim(status)
+endfunction
+call airline#parts#define_function('lsp_status', 'LspStatus')
+call airline#parts#define_condition('lsp_status', 'luaeval("not vim.tbl_isempty(vim.lsp.buf_get_clients())")')
+let g:airline#extensions#nvimlsp#enabled = 0
+let g:airline_section_warning = airline#section#create_right(['lsp_status'])
 
 "### Promptline ###         {{{2
 let g:promptline_theme = 'airline'
