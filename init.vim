@@ -251,6 +251,8 @@ let g:airline_symbols.maxlinenr = ''
 " Don't auto-invoke Tmuxline
 let g:airline#extensions#tmuxline#enabled = 0
 
+let g:airline#extensions#vista#enabled = 0
+
 " Replace built-in LSP extension with LSPStatus plugin
 function! LspStatus() abort
     let status = luaeval('require("lsp-status").status()')
