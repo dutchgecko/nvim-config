@@ -75,8 +75,7 @@ Plug 'Konfekt/FastFold'
 Plug 'tpope/vim-obsession'
 
 " Pretties              {{{2
-Plug 'Yggdroot/indentLine'
-Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'lukas-reineke/indent-blankline.nvim', {'branch': 'lua'}
 Plug 'ryanoasis/vim-devicons'
 
 " External stuff        {{{2
