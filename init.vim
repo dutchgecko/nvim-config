@@ -117,7 +117,7 @@ set linebreak
 let &showbreak=' ﬌  '
 set list
 let &listchars='tab: ,trail:·,extends:,precedes:'
-set colorcolumn=81,121
+set colorcolumn=80,88,120
 
 set foldlevel=999
 set foldmethod=indent
