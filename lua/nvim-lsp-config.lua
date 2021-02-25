@@ -106,7 +106,18 @@ end
 
 --------------------------------------------------------------------------------
 -- python settings
--- local python_settings =
+local python_settings = {
+    pyls = {
+        plugins = {
+            yapf = {
+                enabled = false,
+            },
+            autopep8 = {
+                enabled = false,
+            },
+        },
+    },
+}
 
 -- lua settings
 local lua_settings = {
@@ -131,23 +142,22 @@ end
 --------------------------------------------------------------------------------
 
 function M.do_setup()
-    lsp_test_and_load('bashls')                 -- npm install -g bash-language-server
-    lsp_test_and_load('clangd')                 -- sudo apt install clangd
-    lsp_test_and_load('cmake')                  -- pip install --upgrade cmake-language-server
-    lsp_test_and_load('cssls')                  -- npm install -g vscode-css-languageserver-bin
-    lsp_test_and_load('dockerls')               -- npm install -g dockerfile-language-server-nodejs
-    lsp_test_and_load('html')                   -- npm install -g vscode-html-languageserver-bin
-    lsp_test_and_load('intelephense')           -- PHP -- npm install -g intelephense
-    lsp_test_and_load('jsonls')                 -- npm install -g vscode-json-languageserver
-    lsp_test_and_load('pyls')                   -- pip install --upgrade python-language-server
-    lsp_test_and_load('rust_analyzer')          -- https://github.com/rust-analyzer/rust-analyzer/releases
-    lsp_test_and_load('sqlls')                  -- npm install -g sql-language-server
-    lsp_test_and_load('sumneko_lua', lua_settings, get_lua_cmd())
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#sumneko_lua
-    lsp_test_and_load('texlab')                 -- cargo install --git https://github.com/latex-lsp/texlab.git
-    lsp_test_and_load('tsserver')               -- npm install -g typescript typescript-language-server
-    lsp_test_and_load('vimls')                  -- npm install -g vim-language-server
-    lsp_test_and_load('yamlls')                 -- npm install -g yaml-language-server
+    lsp_test_and_load('bashls')                                     -- npm install -g bash-language-server
+    lsp_test_and_load('clangd')                                     -- sudo apt install clangd
+    lsp_test_and_load('cmake')                                      -- pip install --upgrade cmake-language-server
+    lsp_test_and_load('cssls')                                      -- npm install -g vscode-css-languageserver-bin
+    lsp_test_and_load('dockerls')                                   -- npm install -g dockerfile-language-server-nodejs
+    lsp_test_and_load('html')                                       -- npm install -g vscode-html-languageserver-bin
+    lsp_test_and_load('intelephense')                               -- PHP -- npm install -g intelephense
+    lsp_test_and_load('jsonls')                                     -- npm install -g vscode-json-languageserver
+    lsp_test_and_load('pyls', python_settings)                      -- pip install --upgrade python-language-server
+    lsp_test_and_load('rust_analyzer')                              -- https://github.com/rust-analyzer/rust-analyzer/releases
+    lsp_test_and_load('sqlls')                                      -- npm install -g sql-language-server
+    lsp_test_and_load('sumneko_lua', lua_settings, get_lua_cmd())   -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#sumneko_lua
+    lsp_test_and_load('texlab')                                     -- cargo install --git https://github.com/latex-lsp/texlab.git
+    lsp_test_and_load('tsserver')                                   -- npm install -g typescript typescript-language-server
+    lsp_test_and_load('vimls')                                      -- npm install -g vim-language-server
+    lsp_test_and_load('yamlls')                                     -- npm install -g yaml-language-server
 end
 
 

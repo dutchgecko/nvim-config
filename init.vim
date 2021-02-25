@@ -165,6 +165,10 @@ if executable('rg')
     let &grepprg = "rg --vimgrep"
 endif
 
+if filereadable(expand('$HOME/.pyenv/versions/neovim/bin/python'))
+    let g:python3_host_prog = expand('$HOME/.pyenv/versions/neovim/bin/python')
+endif
+
 "#############################################################################
 "### Tag handling                                                   {{{1    ##
 "#############################################################################
