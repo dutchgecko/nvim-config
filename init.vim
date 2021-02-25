@@ -39,7 +39,6 @@ Plug 'rbong/vim-flog'
 
 " Languages             {{{2
 Plug 'plasticboy/vim-markdown'
-Plug 'kh3phr3n/python-syntax'
 Plug 'dag/vim-fish'
 
 " Editing               {{{2
