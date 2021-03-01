@@ -82,6 +82,9 @@ local function on_attach(client, buffer)
             .. 'lua vim.lsp.buf.formatting()'
         )
     end
+
+    -- permanently display sign column so it doesn't bounce around
+    vim.wo.signcolumn = 'yes'
 end
 
 local function lsp_test_and_load(lserver, settings, cmd)
@@ -106,7 +109,7 @@ end
 
 --------------------------------------------------------------------------------
 -- python settings
-local python_settings = {
+local pyls_settings = {
     pyls = {
         plugins = {
             yapf = {
@@ -150,7 +153,7 @@ function M.do_setup()
     lsp_test_and_load('html')                                       -- npm install -g vscode-html-languageserver-bin
     lsp_test_and_load('intelephense')                               -- PHP -- npm install -g intelephense
     lsp_test_and_load('jsonls')                                     -- npm install -g vscode-json-languageserver
-    lsp_test_and_load('pyls', python_settings)                      -- pip install --upgrade python-language-server
+    lsp_test_and_load('pyls', pyls_settings)                        -- pip install --upgrade python-language-server
     lsp_test_and_load('rust_analyzer')                              -- https://github.com/rust-analyzer/rust-analyzer/releases
     lsp_test_and_load('sqlls')                                      -- npm install -g sql-language-server
     lsp_test_and_load('sumneko_lua', lua_settings, get_lua_cmd())   -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#sumneko_lua
