@@ -76,7 +76,8 @@ Plug 'tpope/vim-obsession'
 
 " Pretties              {{{2
 Plug 'lukas-reineke/indent-blankline.nvim', {'branch': 'lua'}
-Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'yamatsum/nvim-nonicons'
 
 " External stuff        {{{2
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
