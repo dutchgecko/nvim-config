@@ -40,6 +40,7 @@ Plug 'rbong/vim-flog'
 " Languages             {{{2
 Plug 'plasticboy/vim-markdown'
 Plug 'dag/vim-fish'
+Plug 'chr4/nginx'
 
 " Editing               {{{2
 Plug 'vim-scripts/ReplaceWithRegister'
