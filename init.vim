@@ -417,6 +417,7 @@ let g:compe.source.path = {'menu': ''}
 let g:compe.source.buffer = {'menu': ''}
 let g:compe.source.nvim_lsp = {'menu': ''}
 let g:compe.source.nvim_lua = {'menu': ''}
+let g:compe.source.treesitter = {'menu': ''}
 let g:compe.source.vsnip = v:false
 let g:compe.source.tags = v:false
 
@@ -457,5 +458,14 @@ command Diagnostics call OpenDiagnostics()
 "### Treesitter Configuration import                                {{{1    ##
 "#############################################################################
 lua require'nvim-treesitter-config'
+
+function UseTreesitterFolding()
+    if luaeval('require"nvim-treesitter.parsers".has_parser()')
+        setlocal foldmethod=expr
+        setlocal foldexpr=nvim_treesitter#foldexpr()
+    endif
+endfunction
+
+autocmd myvimrc BufEnter * call UseTreesitterFolding()
 
 " vim: set fdm=marker: "

@@ -2,12 +2,42 @@
 local configs = require'nvim-treesitter.configs'
 
 configs.setup {
-    ensure_installed = "all",
+    ensure_installed = {
+        "bash",
+        "c",
+        "c_sharp",
+        "clojure",
+        "cpp",
+        "css",
+        "dart",
+        "fennel",
+        "go",
+        "html",
+        "java",
+        "javascript",
+        "jsdoc",
+        "json",
+        "jsonc",
+        "julia",
+        "kotlin",
+        "lua",
+        "php",
+        "python",
+        "ql",
+        "query",
+        "r",
+        "regex",
+        "rst",
+        "rust",
+        "toml",
+        "typescript",
+    },
     highlight = {
         enable = true,
     },
     indent = {
-        enable = false
+        enable = true,
+        disable = {},
     },
     query_linter = {
         enable = true,
