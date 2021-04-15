@@ -37,7 +37,7 @@ configs.setup {
     },
     indent = {
         enable = true,
-        disable = {},
+        disable = {"python",},
     },
     query_linter = {
         enable = true,

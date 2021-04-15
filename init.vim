@@ -347,9 +347,11 @@ let g:nvim_tree_ignore = [
     \ 'node_modules',
     \ '.cache',
     \ '__pycache__',
+    \ '.mypy_cache',
 \ ]
 let g:nvim_tree_follow = 1
 let g:nvim_tree_indent_markers = 1
+let g:nvim_tree_disable_netrw = 0
 
 "### Vista.vim ###               {{{2
 let g:vista_executive_for = {
@@ -447,6 +449,7 @@ call LspLoadPlugins()
 
 command LspActive lua print(vim.lsp.buf.server_ready())
 command LspClientInfo lua print(vim.inspect(vim.lsp.buf_get_clients()))
+command LspClear lua vim.lsp.diagnostic.clear(0)
 
 function OpenDiagnostics()
     lua vim.lsp.diagnostic.set_loclist()
