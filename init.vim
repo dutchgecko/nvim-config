@@ -19,27 +19,33 @@ endif
 
 call plug#begin(g:vimdir . '/plugged')
 
+" Lua                   {{{2
+Plug 'nvim-lua/plenary.nvim'
+
 " Colorschemes          {{{2
 Plug 'morhetz/gruvbox'
 Plug 'sainnhe/sonokai'
 
 " Interface             {{{2
-Plug 'vim-airline/vim-airline'
+Plug 'famiu/feline.nvim'
 Plug 'edkolev/promptline.vim'
 Plug 'hoov/tmuxline.vim'
+Plug 'akinsho/nvim-bufferline.lua'
 
 " File management       {{{2
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
+Plug 'kyazdani42/nvim-tree.lua'
 
 " Version control       {{{2
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'rbong/vim-flog'
 
 " Languages             {{{2
 Plug 'plasticboy/vim-markdown'
 Plug 'dag/vim-fish'
+Plug 'chr4/nginx'
+Plug 'Vimjas/vim-python-pep8-indent'
 
 " Editing               {{{2
 Plug 'vim-scripts/ReplaceWithRegister'
@@ -75,7 +81,7 @@ Plug 'tpope/vim-obsession'
 
 " Pretties              {{{2
 Plug 'lukas-reineke/indent-blankline.nvim', {'branch': 'lua'}
-Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-web-devicons'
 
 " External stuff        {{{2
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
@@ -126,7 +132,7 @@ set virtualedit=block,insert
 
 set modeline
 
-set updatetime=800
+set updatetime=100
 
 set mouse=a
 
@@ -177,7 +183,7 @@ set tags=./tags;/       " search in parent directories for tags file
 "#############################################################################
 "### Mappings                                                       {{{1    ##
 "#############################################################################
-nnoremap <leader>te <cmd>CHADopen<cr>
+nnoremap <leader>te <cmd>NvimTreeToggle<cr>
 nnoremap <leader>tl :Vista!!<cr>
 
 nnoremap <silent> <C-h> :nohlsearch<CR>
@@ -233,37 +239,6 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 "### Plugin settings                                                {{{1    ##
 "#############################################################################
 
-"### Airline ###            {{{2
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#whitespace#enabled = 0
-
-" Display buffers in tabline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-
-" Custom icon for vim-obsession
-let g:airline#extensions#obsession#indicator_text = ''
-" Remove icon for total number of lines in buffer
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-let g:airline_symbols.maxlinenr = ''
-
-" Don't auto-invoke Tmuxline
-let g:airline#extensions#tmuxline#enabled = 0
-
-let g:airline#extensions#vista#enabled = 0
-
-" Replace built-in LSP extension with LSPStatus plugin
-function! LspStatus() abort
-    let status = luaeval('require("lsp-status").status()')
-    return trim(status)
-endfunction
-call airline#parts#define_function('lsp_status', 'LspStatus')
-call airline#parts#define_condition('lsp_status', 'luaeval("not vim.tbl_isempty(vim.lsp.buf_get_clients())")')
-let g:airline#extensions#nvimlsp#enabled = 0
-let g:airline_section_warning = airline#section#create_right(['lsp_status'])
 
 "### Promptline ###         {{{2
 let g:promptline_theme = 'airline'
@@ -277,7 +252,7 @@ silent! let g:promptline_preset = {
             \'z' : [ promptline#slices#python_virtualenv() ]}
 
 "### IndentLine ###         {{{2
-let g:indentLine_char = ''
+let g:indentLine_char = '┊'
 let g:indentLine_bufTypeExclude = ['help', 'terminal']
 
 "### Ctrl-P ###             {{{2
@@ -339,76 +314,17 @@ autocmd myvimrc BufEnter *github.com_*.txt set filetype=markdown
 "### Gitgutter ###           {{{2
 let g:gitgutter_sign_priority = 1
 
-"### CHADTree ###               {{{2
-let s:palette = sonokai#get_palette(g:sonokai_style)
-let g:chadtree_colours = {
-    \ "8_bit": {
-        \ "Black": {
-            \ "hl24": s:palette.black[0],
-            \ "hl8": "Black",
-        \ },
-        \ "Blue": {
-            \ "hl24": s:palette.blue[0],
-            \ "hl8": "Blue",
-        \ },
-        \ "Cyan": {
-            \ "hl24": s:palette.orange[0],
-            \ "hl8": "Cyan",
-        \ },
-        \ "Green": {
-            \ "hl24": s:palette.green[0],
-            \ "hl8": "Green",
-        \ },
-        \ "Magenta": {
-            \ "hl24": s:palette.purple[0],
-            \ "hl8": "Magenta",
-        \ },
-        \ "Red": {
-            \ "hl24": s:palette.red[0],
-            \ "hl8": "Red",
-        \ },
-        \ "White": {
-            \ "hl24": s:palette.fg[0],
-            \ "hl8": "White",
-        \ },
-        \ "Yellow": {
-            \ "hl24": s:palette.yellow[0],
-            \ "hl8": "Yellow",
-        \ },
-        \ "BrightBlack": {
-            \ "hl24": s:palette.black[0],
-            \ "hl8": "Black",
-        \ },
-        \ "BrightBlue": {
-            \ "hl24": s:palette.blue[0],
-            \ "hl8": "Blue",
-        \ },
-        \ "BrightCyan": {
-            \ "hl24": s:palette.orange[0],
-            \ "hl8": "Cyan",
-        \ },
-        \ "BrightGreen": {
-            \ "hl24": s:palette.green[0],
-            \ "hl8": "Green",
-        \ },
-        \ "BrightMagenta": {
-            \ "hl24": s:palette.purple[0],
-            \ "hl8": "Magenta",
-        \ },
-        \ "BrightRed": {
-            \ "hl24": s:palette.red[0],
-            \ "hl8": "Red",
-        \ },
-        \ "BrightWhite": {
-            \ "hl24": s:palette.fg[0],
-            \ "hl8": "White",
-        \ },
-        \ "BrightYellow": {
-            \ "hl24": s:palette.yellow[0],
-            \ "hl8": "Yellow",
-        \ },
-    \ }
-\ }
+"### nvim-tree ###              {{{2
+let g:nvim_tree_ignore = [
+    \ '.git',
+    \ 'node_modules',
+    \ '.cache',
+    \ '__pycache__',
+    \ '.mypy_cache',
+\ ]
+let g:nvim_tree_follow = 1
+let g:nvim_tree_indent_markers = 1
+let g:nvim_tree_disable_netrw = 0
 
 "### Vista.vim ###               {{{2
 let g:vista_executive_for = {
@@ -435,6 +351,28 @@ let g:vista_executive_for = {
 let g:vista#renderer#enable_icon = 1
 let g:vista_icon_indent = ["╰─ ", "├─ "]
 let g:vista_echo_cursor_strategy = 'floating_win'
+
+"#############################################################################
+"### Lua plugin setup                                               {{{1    ##
+"#############################################################################
+lua require('gitsigns').setup({signs = {changedelete = {text = '╞'}}})
+
+lua << EOF
+if not require'nvim-web-devicons'.has_loaded() then
+    require'nvim-web-devicons'.setup()
+end
+EOF
+
+lua require('plugins.feline')
+
+lua << EOF
+require('bufferline').setup{
+    options = {
+        numbers = "buffer_id",
+        number_style = "",
+    }
+}
+EOF
 
 "#############################################################################
 "### Functions                                                      {{{1    ##
@@ -476,6 +414,7 @@ let g:compe.source.path = {'menu': ''}
 let g:compe.source.buffer = {'menu': ''}
 let g:compe.source.nvim_lsp = {'menu': ''}
 let g:compe.source.nvim_lua = {'menu': ''}
+let g:compe.source.treesitter = {'menu': ''}
 let g:compe.source.vsnip = v:false
 let g:compe.source.tags = v:false
 
@@ -505,6 +444,7 @@ call LspLoadPlugins()
 
 command LspActive lua print(vim.lsp.buf.server_ready())
 command LspClientInfo lua print(vim.inspect(vim.lsp.buf_get_clients()))
+command LspClear lua vim.lsp.diagnostic.clear(0)
 
 function OpenDiagnostics()
     lua vim.lsp.diagnostic.set_loclist()
@@ -516,5 +456,14 @@ command Diagnostics call OpenDiagnostics()
 "### Treesitter Configuration import                                {{{1    ##
 "#############################################################################
 lua require'nvim-treesitter-config'
+
+function UseTreesitterFolding()
+    if luaeval('require"nvim-treesitter.parsers".has_parser()')
+        setlocal foldmethod=expr
+        setlocal foldexpr=nvim_treesitter#foldexpr()
+    endif
+endfunction
+
+autocmd myvimrc BufEnter * call UseTreesitterFolding()
 
 " vim: set fdm=marker: "

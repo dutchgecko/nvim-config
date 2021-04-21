@@ -5,7 +5,27 @@ local M = {}
 
 -- lsp_status setup
 local kind_labels_mt = {__index = function(_, k) return k end}
-local kind_labels = {}
+local kind_labels = {
+    File = '',
+    Module = '',
+    Namespace = '',
+    Package = '',
+    Class = '',
+    Method = '',
+    Property = '',
+    Field = '',
+    Constructor = '',
+    Enum = '',
+    Interface = '',
+    Function = '',
+    Variable = '',
+    Constant = '',
+    Array = '',
+    Key = '',
+    Null = '',
+    EnumMember = '',
+    Struct = '',
+}
 setmetatable(kind_labels, kind_labels_mt)
 
 lsp_status.register_progress()
