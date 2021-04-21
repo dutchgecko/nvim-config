@@ -45,6 +45,7 @@ Plug 'rbong/vim-flog'
 Plug 'plasticboy/vim-markdown'
 Plug 'dag/vim-fish'
 Plug 'chr4/nginx'
+Plug 'Vimjas/vim-python-pep8-indent'
 
 " Editing               {{{2
 Plug 'vim-scripts/ReplaceWithRegister'
