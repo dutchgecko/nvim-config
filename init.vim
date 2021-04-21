@@ -19,14 +19,18 @@ endif
 
 call plug#begin(g:vimdir . '/plugged')
 
+" Lua                   {{{2
+Plug 'nvim-lua/plenary.nvim'
+
 " Colorschemes          {{{2
 Plug 'morhetz/gruvbox'
 Plug 'sainnhe/sonokai'
 
 " Interface             {{{2
-Plug 'vim-airline/vim-airline'
+Plug 'famiu/feline.nvim'
 Plug 'edkolev/promptline.vim'
 Plug 'hoov/tmuxline.vim'
+Plug 'akinsho/nvim-bufferline.lua'
 
 " File management       {{{2
 Plug 'ctrlpvim/ctrlp.vim'
@@ -34,7 +38,7 @@ Plug 'kyazdani42/nvim-tree.lua'
 
 " Version control       {{{2
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'rbong/vim-flog'
 
 " Languages             {{{2
@@ -77,7 +81,6 @@ Plug 'tpope/vim-obsession'
 " Pretties              {{{2
 Plug 'lukas-reineke/indent-blankline.nvim', {'branch': 'lua'}
 Plug 'kyazdani42/nvim-web-devicons'
-Plug 'yamatsum/nvim-nonicons'
 
 " External stuff        {{{2
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
@@ -128,7 +131,7 @@ set virtualedit=block,insert
 
 set modeline
 
-set updatetime=800
+set updatetime=100
 
 set mouse=a
 
@@ -235,37 +238,6 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 "### Plugin settings                                                {{{1    ##
 "#############################################################################
 
-"### Airline ###            {{{2
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#whitespace#enabled = 0
-
-" Display buffers in tabline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-
-" Custom icon for vim-obsession
-let g:airline#extensions#obsession#indicator_text = ''
-" Remove icon for total number of lines in buffer
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-let g:airline_symbols.maxlinenr = ''
-
-" Don't auto-invoke Tmuxline
-let g:airline#extensions#tmuxline#enabled = 0
-
-let g:airline#extensions#vista#enabled = 0
-
-" Replace built-in LSP extension with LSPStatus plugin
-function! LspStatus() abort
-    let status = luaeval('require("lsp-status").status()')
-    return trim(status)
-endfunction
-call airline#parts#define_function('lsp_status', 'LspStatus')
-call airline#parts#define_condition('lsp_status', 'luaeval("not vim.tbl_isempty(vim.lsp.buf_get_clients())")')
-let g:airline#extensions#nvimlsp#enabled = 0
-let g:airline_section_warning = airline#section#create_right(['lsp_status'])
 
 "### Promptline ###         {{{2
 let g:promptline_theme = 'airline'
@@ -279,7 +251,7 @@ silent! let g:promptline_preset = {
             \'z' : [ promptline#slices#python_virtualenv() ]}
 
 "### IndentLine ###         {{{2
-let g:indentLine_char = ''
+let g:indentLine_char = '┊'
 let g:indentLine_bufTypeExclude = ['help', 'terminal']
 
 "### Ctrl-P ###             {{{2
@@ -378,6 +350,28 @@ let g:vista_executive_for = {
 let g:vista#renderer#enable_icon = 1
 let g:vista_icon_indent = ["╰─ ", "├─ "]
 let g:vista_echo_cursor_strategy = 'floating_win'
+
+"#############################################################################
+"### Lua plugin setup                                               {{{1    ##
+"#############################################################################
+lua require('gitsigns').setup({signs = {changedelete = {text = '╞'}}})
+
+lua << EOF
+if not require'nvim-web-devicons'.has_loaded() then
+    require'nvim-web-devicons'.setup()
+end
+EOF
+
+lua require('plugins.feline')
+
+lua << EOF
+require('bufferline').setup{
+    options = {
+        numbers = "buffer_id",
+        number_style = "",
+    }
+}
+EOF
 
 "#############################################################################
 "### Functions                                                      {{{1    ##
