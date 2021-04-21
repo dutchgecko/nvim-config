@@ -154,7 +154,7 @@ endif
 "#############################################################################
 "### GUI Settings                                                   {{{1    ##
 "#############################################################################
-let &guifont = 'JetBrainsMono Nerd Font Mono:h12'
+let &guifont = 'JetBrainsMono Nerd Font:h12'
 let g:neovide_refresh_rate = 165
 let g:neovide_cursor_animation_length = 0.04
 
@@ -327,7 +327,7 @@ function! OnUIEnterFirenvim(event) abort
         set laststatus=0
         set scrolloff=0
         set showtabline=0
-        let &guifont = 'JetBrainsMono Nerd Font Mono:h9'
+        let &guifont = 'JetBrainsMono Nerd Font:h9'
     endif
 endfunction
 
