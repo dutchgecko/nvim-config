@@ -1,36 +1,13 @@
 local lsp = require 'lspconfig'
 local lsp_status = require 'lsp-status'
+local myicons = require('myicons')
 
 local M = {}
 
 -- lsp_status setup
-local kind_labels_mt = {__index = function(_, k) return k end}
-local kind_labels = {
-    File = '',
-    Module = '',
-    Namespace = '',
-    Package = '',
-    Class = '',
-    Method = '',
-    Property = '',
-    Field = '',
-    Constructor = '',
-    Enum = '',
-    Interface = '',
-    Function = '',
-    Variable = '',
-    Constant = '',
-    Array = '',
-    Key = '',
-    Null = '',
-    EnumMember = '',
-    Struct = '',
-}
-setmetatable(kind_labels, kind_labels_mt)
-
 lsp_status.register_progress()
 lsp_status.config({
-    kind_labels = kind_labels,
+    kind_labels = myicons,
     indicator_errors = "",
     indicator_warnings = "",
     indicator_info = "",
