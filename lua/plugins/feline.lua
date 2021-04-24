@@ -199,7 +199,7 @@ components.left.active[1] = {
 
 components.left.active[2] = {
     provider = function()
-        local filename = vim.fn.expand('%')
+        local filename = vim.fn.expand('%:.')
         local extension = vim.fn.expand('%:e')
         local fileicon = icons.get_icon(filename, extension, {default = true})
         local modifiedicon = vim.bo.modified and ' ' or ''
