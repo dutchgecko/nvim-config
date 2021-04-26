@@ -368,6 +368,7 @@ lua require('plugins.feline')
 lua << EOF
 require('bufferline').setup{
     options = {
+        view = "multiwindow",
         numbers = "buffer_id",
         number_style = "",
     }
