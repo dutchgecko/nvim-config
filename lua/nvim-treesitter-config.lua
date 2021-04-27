@@ -1,42 +1,12 @@
--- local ts = require'nvim-treesitter'
 local configs = require'nvim-treesitter.configs'
 
 configs.setup {
-    ensure_installed = {
-        "bash",
-        "c",
-        "c_sharp",
-        "clojure",
-        "cpp",
-        "css",
-        "dart",
-        "fennel",
-        "go",
-        "html",
-        "java",
-        "javascript",
-        "jsdoc",
-        "json",
-        "jsonc",
-        "julia",
-        "kotlin",
-        "lua",
-        "php",
-        "python",
-        "ql",
-        "query",
-        "r",
-        "regex",
-        "rst",
-        "rust",
-        "toml",
-        "typescript",
-    },
+    ensure_installed = "maintained",
     highlight = {
         enable = true,
     },
     indent = {
-        enable = true,
+        enable = false,
         disable = {"python",},
     },
     query_linter = {
