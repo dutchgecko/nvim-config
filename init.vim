@@ -47,6 +47,9 @@ Plug 'dag/vim-fish'
 Plug 'chr4/nginx'
 Plug 'Vimjas/vim-python-pep8-indent'
 
+" Compilers             {{{2
+Plug 'CarloDePieri/pytest-vim-compiler'
+
 " Editing               {{{2
 Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'kshenoy/vim-signature'
@@ -191,7 +194,7 @@ nnoremap <C-J> o<ESC>
 
 inoremap <C-l> <C-o><C-l>
 
-nnoremap <F5> :make<CR>
+nnoremap <F5> :Make<CR>
 
 nnoremap <leader>se :setlocal spell spelllang=en_gb<CR>
 nnoremap <leader>sd :setlocal spell spelllang=nl<CR>
@@ -321,6 +324,7 @@ let g:nvim_tree_ignore = [
     \ '.cache',
     \ '__pycache__',
     \ '.mypy_cache',
+    \ '.pytest_cache',
 \ ]
 let g:nvim_tree_follow = 1
 let g:nvim_tree_indent_markers = 1
@@ -351,6 +355,9 @@ let g:vista_executive_for = {
 let g:vista#renderer#enable_icon = 1
 let g:vista_icon_indent = ["╰─ ", "├─ "]
 let g:vista_echo_cursor_strategy = 'floating_win'
+
+"### pytest-vim-compiler ###            {{{2
+let g:pytest_compiler_args = '--vim-quickfix'
 
 "#############################################################################
 "### Lua plugin setup                                               {{{1    ##
