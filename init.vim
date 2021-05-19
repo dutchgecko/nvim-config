@@ -77,6 +77,7 @@ Plug 'onsails/lspkind-nvim'
 Plug 'alexaandru/nvim-lspupdate'
 Plug 'liuchengxu/vista.vim'
 Plug 'nvim-lua/lsp-status.nvim'
+Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
 
 " Usability             {{{2
 Plug 'Konfekt/FastFold'
@@ -329,6 +330,8 @@ let g:nvim_tree_ignore = [
 let g:nvim_tree_follow = 1
 let g:nvim_tree_indent_markers = 1
 let g:nvim_tree_disable_netrw = 0
+let g:nvim_tree_width_allow_resize = 1
+let g:nvim_tree_width = 50
 
 "### Vista.vim ###               {{{2
 let g:vista_executive_for = {
@@ -358,6 +361,9 @@ let g:vista_echo_cursor_strategy = 'floating_win'
 
 "### pytest-vim-compiler ###            {{{2
 let g:pytest_compiler_args = '--vim-quickfix'
+
+"### Hexokinase ###
+let g:Hexokinase_highlighters = ['virtual']
 
 "#############################################################################
 "### Lua plugin setup                                               {{{1    ##
