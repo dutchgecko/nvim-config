@@ -106,8 +106,8 @@ end
 
 --------------------------------------------------------------------------------
 -- python settings
-local pyls_settings = {
-    pyls = {
+local pylsp_settings = {
+    pylsp = {
         plugins = {
             yapf = {
                 enabled = false,
@@ -150,7 +150,7 @@ function M.do_setup()
     lsp_test_and_load('html')                                       -- npm install -g vscode-html-languageserver-bin
     lsp_test_and_load('intelephense')                               -- PHP -- npm install -g intelephense
     lsp_test_and_load('jsonls')                                     -- npm install -g vscode-json-languageserver
-    lsp_test_and_load('pyls', pyls_settings, {'pylsp'})             -- pip install --upgrade python-lsp-server
+    lsp_test_and_load('pylsp', pylsp_settings)                      -- pip install --upgrade python-lsp-server[all]
     lsp_test_and_load('rust_analyzer')                              -- https://github.com/rust-analyzer/rust-analyzer/releases
     lsp_test_and_load('sqlls')                                      -- npm install -g sql-language-server
     lsp_test_and_load('sumneko_lua', lua_settings, get_lua_cmd())   -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#sumneko_lua
