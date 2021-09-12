@@ -1,8 +1,11 @@
 local feline = require('feline')
 local lsp = require('feline.providers.lsp')
+local git = require('feline.providers.git')
 local icons = require('nvim-web-devicons')
 --local nonicons = require('nvim-nonicons')
 local vi_mode = require('feline.providers.vi_mode')
+
+local getwin = vim.api.nvim_get_current_win
 
 local M = {}
 
@@ -36,7 +39,6 @@ local function setupcolors()
     for key, val in pairs(cols) do
         colors[key] = val[1]
     end
-    colors.bg = colors.bg1
 end
 setupcolors()
 
@@ -47,6 +49,7 @@ local vi_mode_colors = {
     OP = colors.bg_blue,
     INSERT = colors.bg_green,
     VISUAL = colors.purple,
+    LINES = colors.purple,
     BLOCK = colors.purple,
     REPLACE = colors.yellow,
     ['V-REPLACE'] = colors.yellow,
@@ -58,6 +61,8 @@ local vi_mode_colors = {
     TERM = colors.bg_blue,
     NONE = colors.orange,
 }
+
+M.vi_mode_colors = vi_mode_colors
 
 -- local vi_mode_icon = {
 --     NORMAL = nonicons.get("vim-normal-mode"),
@@ -81,6 +86,7 @@ local vi_mode_icon = {
     OP = 'N',
     INSERT = 'I',
     VISUAL = 'V',
+    LINES = 'VL',
     BLOCK = 'VB',
     REPLACE = 'R',
     ['V-REPLACE'] = 'VR',
@@ -126,7 +132,7 @@ local function error_bg(greyscale)
     elseif error_level() then
         return color_map[error_level()]
     else
-        return colors.bg
+        return colors.bg1
     end
 end
 
@@ -160,23 +166,19 @@ local function makesep(sep, bg, fg)
 end
 
 local components = {
-    left = {
-        active = {},
-        inactive = {}
+    active = {
+        {},
+        {},
     },
-    mid = {
-        active = {},
-        inactive = {}
-    },
-    right = {
-        active = {},
-        inactive = {}
+    inactive = {
+        {},
+        {},
     }
 }
 
 --- left side
 
-components.left.active[1] = {
+table.insert(components.active[1], {
     provider = function()
         return vi_mode_icon[vi_mode.get_vim_mode()] .. ' '
     end,
@@ -195,9 +197,9 @@ components.left.active[1] = {
         colors.bg4,
         function() return vi_mode_colors[vi_mode.get_vim_mode()] end
     ),
-}
+})
 
-components.left.active[2] = {
+table.insert(components.active[1], {
     provider = function()
         local filename = vim.fn.expand('%:.')
         local extension = vim.fn.expand('%:e')
@@ -215,9 +217,9 @@ components.left.active[2] = {
     end,
     left_sep = {str = ' ', hl = {bg = colors.bg4}},
     right_sep = 'right_filled',
-}
+})
 
-components.left.active[3] = {
+table.insert(components.active[1], {
     provider = function()
         return vim.b.lsp_current_function or ''
     end,
@@ -231,40 +233,58 @@ components.left.active[3] = {
         )
     end,
     hl = {fg = colors.grey},
-}
+})
 
 --- right side
 
-components.right.active[1] = {
-    provider = function() return lsp.diagnostic_errors({icon = '  '}) .. ' ' end,
+table.insert(components.active[2], {
+    provider = function()
+        local count, icon = lsp.diagnostic_errors({icon = '  '})
+        return icon .. count .. ' '
+    end,
     enabled = function() return lsp.diagnostics_exist('Error') end,
     left_sep = {
         str = 'left_filled',
         hl = {fg = colors.bg_red},
     },
     hl = function() return {fg = colors.bg0, bg = error_bg()} end,
-}
-components.right.active[2] = {
-    provider = function() return lsp.diagnostic_warnings({icon = '  '}) .. ' ' end,
+})
+
+table.insert(components.active[2], {
+    provider = function()
+        local count, icon = lsp.diagnostic_warnings({icon = '  '})
+        return icon .. count .. ' '
+    end,
     enabled = function() return lsp.diagnostics_exist('Warning') end,
     left_sep = error_sep_curried('Warning'),
     hl = function() return {fg = colors.bg0, bg = error_bg()} end,
-}
-components.right.active[3] = {
-    provider = function() return lsp.diagnostic_hints({icon = ' ﯟ '}) .. ' ' end,
+})
+
+table.insert(components.active[2], {
+    provider = function()
+        local count, icon = lsp.diagnostic_hints({icon = ' ﯟ '})
+        return icon .. count .. ' '
+    end,
     enabled = function() return lsp.diagnostics_exist('Hint') end,
     left_sep = error_sep_curried('Hint'),
     hl = function() return {fg = colors.bg0, bg = error_bg()} end,
-}
-components.right.active[4] = {
-    provider = function() return lsp.diagnostic_info({icon = '  '}) .. ' ' end,
+})
+
+table.insert(components.active[2], {
+    provider = function()
+        local count, icon = lsp.diagnostic_info({icon = '  '})
+        return icon .. count .. ' '
+    end,
     enabled = function() return lsp.diagnostics_exist('Information') end,
     left_sep = error_sep_curried('Information'),
     hl = function() return {fg = colors.bg0, bg = error_bg()} end,
-}
+})
 
-components.right.active[5] = {
-    provider = 'git_branch',
+table.insert(components.active[2], {
+    provider = function()
+        local branch, icon = git.git_branch({}, getwin())
+        return ' ' .. icon .. branch
+    end,
     enabled = function()
         local gsd = vim.b.gitsigns_status_dict
         return gsd and gsd.head and #gsd.head > 0
@@ -277,8 +297,8 @@ components.right.active[5] = {
     end,
     right_sep = {str = ' ', hl = {bg = colors.bg4}},
     hl = {bg = colors.bg4},
-}
-components.right.active[6] = {
+})
+table.insert(components.active[2], {
     provider = 'git_diff_added',
     enabled = function()
         local gsd = vim.b.gitsigns_status_dict
@@ -286,8 +306,8 @@ components.right.active[6] = {
     end,
     left_sep = {str = 'left', hl = {bg = colors.bg4}},
     hl = {bg = colors.bg4},
-}
-components.right.active[7] = {
+})
+table.insert(components.active[2], {
     provider = 'git_diff_changed',
     enabled = function()
         local gsd = vim.b.gitsigns_status_dict
@@ -304,8 +324,8 @@ components.right.active[7] = {
         return {str = str, hl = {bg = colors.bg4}}
     end,
     hl = {bg = colors.bg4},
-}
-components.right.active[8] = {
+})
+table.insert(components.active[2], {
     provider = 'git_diff_removed',
     enabled = function()
         local gsd = vim.b.gitsigns_status_dict
@@ -327,8 +347,8 @@ components.right.active[8] = {
         return {str = str, hl = {bg = colors.bg4}}
     end,
     hl = {bg = colors.bg4},
-}
-components.right.active[9] = {
+})
+table.insert(components.active[2], {
     provider = ' ',
     enabled = function()
         local gsd = vim.b.gitsigns_status_dict
@@ -339,9 +359,9 @@ components.right.active[9] = {
         )
     end,
     hl = {bg = colors.bg4},
-}
+})
 
-components.right.active[10] = {
+table.insert(components.active[2], {
     provider = ' ',
     hl = function()
         local hl = {}
@@ -362,8 +382,8 @@ components.right.active[10] = {
         end,
         function() return vi_mode_colors[vi_mode.get_vim_mode()] end
     ),
-}
-components.right.active[11] = {
+})
+table.insert(components.active[2], {
     provider = 'file_encoding',
     hl = function()
         local hl = {}
@@ -376,8 +396,8 @@ components.right.active[11] = {
         function() return vi_mode_colors[vi_mode.get_vim_mode()] end,
         colors.bg4
     ),
-}
-components.right.active[12] = {
+})
+table.insert(components.active[2], {
     provider = file_osinfo,
     hl = function()
         local hl = {}
@@ -390,8 +410,8 @@ components.right.active[12] = {
         function() return vi_mode_colors[vi_mode.get_vim_mode()] end,
         colors.bg4
     ),
-}
-components.right.active[13] = {
+})
+table.insert(components.active[2], {
     provider = ' ',
     hl = function()
         local hl = {}
@@ -404,8 +424,8 @@ components.right.active[13] = {
         function() return vi_mode_colors[vi_mode.get_vim_mode()] end,
         colors.bg0
     ),
-}
-components.right.active[14] = {
+})
+table.insert(components.active[2], {
     provider = 'line_percentage',
     hl = function()
         local hl = {}
@@ -418,11 +438,11 @@ components.right.active[14] = {
         function() return vi_mode_colors[vi_mode.get_vim_mode()] end,
         colors.bg0
     )
-}
+})
 
 --- inactive left side
 
-components.left.inactive[1] = {
+table.insert(components.inactive[1], {
     provider = '   ',
     hl = {
         bg = colors.grey,
@@ -432,9 +452,9 @@ components.left.inactive[1] = {
         colors.bg2,
         colors.grey
     )
-}
+})
 
-components.left.inactive[2] = {
+table.insert(components.inactive[1], {
     provider = function()
         local filename = vim.fn.expand('%')
         local extension = vim.fn.expand('%:e')
@@ -452,11 +472,11 @@ components.left.inactive[2] = {
     end,
     left_sep = {str = ' ', hl = {bg = colors.bg2}},
     right_sep = 'right_filled',
-}
+})
 
 --- inactive right
 
-components.right.inactive[1] = {
+table.insert(components.inactive[2], {
     provider = function() return lsp.diagnostic_errors({icon = '  '}) .. ' ' end,
     enabled = function() return lsp.diagnostics_exist('Error') end,
     left_sep = {
@@ -464,27 +484,27 @@ components.right.inactive[1] = {
         hl = {fg = colors.grey},
     },
     hl = function() return {fg = colors.bg0, bg = colors.grey} end,
-}
-components.right.inactive[2] = {
+})
+table.insert(components.inactive[2], {
     provider = function() return lsp.diagnostic_warnings({icon = '  '}) .. ' ' end,
     enabled = function() return lsp.diagnostics_exist('Warning') end,
     left_sep = error_sep_curried('Warning', true),
     hl = function() return {fg = colors.bg0, bg = colors.grey} end,
-}
-components.right.inactive[3] = {
+})
+table.insert(components.inactive[2], {
     provider = function() return lsp.diagnostic_hints({icon = ' ﯟ '}) .. ' ' end,
     enabled = function() return lsp.diagnostics_exist('Hint') end,
     left_sep = error_sep_curried('Hint', true),
     hl = function() return {fg = colors.bg0, bg = colors.grey} end,
-}
-components.right.inactive[4] = {
+})
+table.insert(components.inactive[2], {
     provider = function() return lsp.diagnostic_info({icon = '  '}) .. ' ' end,
     enabled = function() return lsp.diagnostics_exist('Information') end,
     left_sep = error_sep_curried('Information', true),
     hl = function() return {fg = colors.bg0, bg = colors.grey} end,
-}
+})
 
-components.right.inactive[5] = {
+table.insert(components.inactive[2], {
     provider = 'git_branch',
     enabled = function()
         local gsd = vim.b.gitsigns_status_dict
@@ -498,8 +518,8 @@ components.right.inactive[5] = {
     end,
     right_sep = {str = ' ', hl = {bg = colors.bg2}},
     hl = {bg = colors.bg2, fg=colors.grey},
-}
-components.right.inactive[6] = {
+})
+table.insert(components.inactive[2], {
     provider = 'git_diff_added',
     enabled = function()
         local gsd = vim.b.gitsigns_status_dict
@@ -507,8 +527,8 @@ components.right.inactive[6] = {
     end,
     left_sep = {str = 'left', hl = {bg = colors.bg2, fg=colors.grey}},
     hl = {bg = colors.bg2, fg=colors.grey},
-}
-components.right.inactive[7] = {
+})
+table.insert(components.inactive[2], {
     provider = 'git_diff_changed',
     enabled = function()
         local gsd = vim.b.gitsigns_status_dict
@@ -525,8 +545,8 @@ components.right.inactive[7] = {
         return {str = str, hl = {bg = colors.bg2, fg=colors.grey}}
     end,
     hl = {bg = colors.bg2, fg=colors.grey},
-}
-components.right.inactive[8] = {
+})
+table.insert(components.inactive[2], {
     provider = 'git_diff_removed',
     enabled = function()
         local gsd = vim.b.gitsigns_status_dict
@@ -548,8 +568,8 @@ components.right.inactive[8] = {
         return {str = str, hl = {bg = colors.bg2, fg=colors.grey}}
     end,
     hl = {bg = colors.bg2, fg=colors.grey},
-}
-components.right.inactive[9] = {
+})
+table.insert(components.inactive[2], {
     provider = ' ',
     enabled = function()
         local gsd = vim.b.gitsigns_status_dict
@@ -560,9 +580,9 @@ components.right.inactive[9] = {
         )
     end,
     hl = {bg = colors.bg2},
-}
+})
 
-components.right.inactive[10] = {
+table.insert(components.inactive[2], {
     provider = ' ',
     hl = {
         fg = colors.bg0,
@@ -581,8 +601,8 @@ components.right.inactive[10] = {
         end,
         colors.bg4
     ),
-}
-components.right.inactive[11] = {
+})
+table.insert(components.inactive[2], {
     provider = 'file_encoding',
     hl = {
         fg = colors.grey,
@@ -593,8 +613,8 @@ components.right.inactive[11] = {
         colors.bg4,
         colors.bg2
     ),
-}
-components.right.inactive[12] = {
+})
+table.insert(components.inactive[2], {
     provider = file_osinfo,
     hl = {
         fg = colors.grey,
@@ -605,8 +625,8 @@ components.right.inactive[12] = {
         colors.bg4,
         colors.bg4
     ),
-}
-components.right.inactive[13] = {
+})
+table.insert(components.inactive[2], {
     provider = ' ',
     hl = {
         fg = colors.grey,
@@ -617,8 +637,8 @@ components.right.inactive[13] = {
         colors.bg4,
         colors.grey
     ),
-}
-components.right.inactive[14] = {
+})
+table.insert(components.inactive[2], {
     provider = 'line_percentage',
     hl = {
         fg = colors.grey,
@@ -629,13 +649,15 @@ components.right.inactive[14] = {
         colors.bg4,
         colors.grey
     )
-}
+})
 
 --- install
 
 feline.setup({
-    default_bg = colors.bg,
-    default_fg = colors.fg,
+    colors = {
+        bg = colors.bg1,
+        fg = colors.fg,
+    },
     components = components,
 })
 

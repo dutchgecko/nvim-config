@@ -382,8 +382,9 @@ lua << EOF
 require('bufferline').setup{
     options = {
         view = "multiwindow",
-        numbers = "buffer_id",
-        number_style = "",
+        numbers = function(opts)
+            return string.format('%s ', opts.id)
+        end,
     }
 }
 EOF
