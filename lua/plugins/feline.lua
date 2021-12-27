@@ -2,7 +2,6 @@ local feline = require('feline')
 local lsp = require('feline.providers.lsp')
 local git = require('feline.providers.git')
 local icons = require('nvim-web-devicons')
---local nonicons = require('nvim-nonicons')
 local vi_mode = require('feline.providers.vi_mode')
 
 local getwin = vim.api.nvim_get_current_win
@@ -113,7 +112,7 @@ local function file_osinfo()
 end
 
 local function error_level()
-    local levels = {'Error', 'Warning', 'Hint', 'Information',}
+    local levels = { "ERROR", "WARN", "INFO", "HINT", }
     for _, level in ipairs(levels) do
         if lsp.diagnostics_exist(level) then return level end
     end
@@ -122,10 +121,10 @@ end
 
 local function error_bg(greyscale)
     local color_map = {
-        Error = colors.bg_red,
-        Warning = colors.yellow,
-        Hint = colors.bg_green,
-        Information = colors.bg_blue,
+        ERROR = colors.bg_red,
+        WARN = colors.yellow,
+        INFO = colors.bg_blue,
+        HINT = colors.bg_green,
     }
     if greyscale and error_level() then
         return colors.grey
@@ -242,7 +241,7 @@ table.insert(components.active[2], {
         local count, icon = lsp.diagnostic_errors({icon = '  '})
         return icon .. count .. ' '
     end,
-    enabled = function() return lsp.diagnostics_exist('Error') end,
+    enabled = function() return lsp.diagnostics_exist('ERROR') end,
     left_sep = {
         str = 'left_filled',
         hl = {fg = colors.bg_red},
@@ -255,8 +254,8 @@ table.insert(components.active[2], {
         local count, icon = lsp.diagnostic_warnings({icon = '  '})
         return icon .. count .. ' '
     end,
-    enabled = function() return lsp.diagnostics_exist('Warning') end,
-    left_sep = error_sep_curried('Warning'),
+    enabled = function() return lsp.diagnostics_exist('WARN') end,
+    left_sep = error_sep_curried('WARN'),
     hl = function() return {fg = colors.bg0, bg = error_bg()} end,
 })
 
@@ -265,8 +264,8 @@ table.insert(components.active[2], {
         local count, icon = lsp.diagnostic_hints({icon = ' ﯟ '})
         return icon .. count .. ' '
     end,
-    enabled = function() return lsp.diagnostics_exist('Hint') end,
-    left_sep = error_sep_curried('Hint'),
+    enabled = function() return lsp.diagnostics_exist('HINT') end,
+    left_sep = error_sep_curried('HINT'),
     hl = function() return {fg = colors.bg0, bg = error_bg()} end,
 })
 
@@ -275,8 +274,8 @@ table.insert(components.active[2], {
         local count, icon = lsp.diagnostic_info({icon = '  '})
         return icon .. count .. ' '
     end,
-    enabled = function() return lsp.diagnostics_exist('Information') end,
-    left_sep = error_sep_curried('Information'),
+    enabled = function() return lsp.diagnostics_exist('INFO') end,
+    left_sep = error_sep_curried('INFO'),
     hl = function() return {fg = colors.bg0, bg = error_bg()} end,
 })
 
@@ -478,7 +477,7 @@ table.insert(components.inactive[1], {
 
 table.insert(components.inactive[2], {
     provider = function() return lsp.diagnostic_errors({icon = '  '}) .. ' ' end,
-    enabled = function() return lsp.diagnostics_exist('Error') end,
+    enabled = function() return lsp.diagnostics_exist('ERROR') end,
     left_sep = {
         str = 'left_filled',
         hl = {fg = colors.grey},
@@ -487,20 +486,20 @@ table.insert(components.inactive[2], {
 })
 table.insert(components.inactive[2], {
     provider = function() return lsp.diagnostic_warnings({icon = '  '}) .. ' ' end,
-    enabled = function() return lsp.diagnostics_exist('Warning') end,
-    left_sep = error_sep_curried('Warning', true),
+    enabled = function() return lsp.diagnostics_exist('WARN') end,
+    left_sep = error_sep_curried('WARN', true),
     hl = function() return {fg = colors.bg0, bg = colors.grey} end,
 })
 table.insert(components.inactive[2], {
     provider = function() return lsp.diagnostic_hints({icon = ' ﯟ '}) .. ' ' end,
-    enabled = function() return lsp.diagnostics_exist('Hint') end,
-    left_sep = error_sep_curried('Hint', true),
+    enabled = function() return lsp.diagnostics_exist('HINT') end,
+    left_sep = error_sep_curried('HINT', true),
     hl = function() return {fg = colors.bg0, bg = colors.grey} end,
 })
 table.insert(components.inactive[2], {
     provider = function() return lsp.diagnostic_info({icon = '  '}) .. ' ' end,
-    enabled = function() return lsp.diagnostics_exist('Information') end,
-    left_sep = error_sep_curried('Information', true),
+    enabled = function() return lsp.diagnostics_exist('INFO') end,
+    left_sep = error_sep_curried('INFO', true),
     hl = function() return {fg = colors.bg0, bg = colors.grey} end,
 })
 
@@ -654,7 +653,7 @@ table.insert(components.inactive[2], {
 --- install
 
 feline.setup({
-    colors = {
+    theme = {
         bg = colors.bg1,
         fg = colors.fg,
     },

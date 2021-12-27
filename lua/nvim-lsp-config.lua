@@ -19,10 +19,6 @@ lsp_status.config({
 local function on_attach(client, buffer)
     -- custom on_attach calls
 
-    require('lspkind').init({
-        with_text = false,
-    })
-
     lsp_status.on_attach(client, buffer)
 
     local capabilities = vim.lsp.buf_get_clients()[

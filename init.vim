@@ -23,7 +23,6 @@ call plug#begin(g:vimdir . '/plugged')
 Plug 'nvim-lua/plenary.nvim'
 
 " Colorschemes          {{{2
-Plug 'morhetz/gruvbox'
 Plug 'sainnhe/sonokai'
 
 " Interface             {{{2
@@ -51,7 +50,7 @@ Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'CarloDePieri/pytest-vim-compiler'
 
 " Editing               {{{2
-Plug 'vim-scripts/ReplaceWithRegister'
+"Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'kshenoy/vim-signature'
 Plug 'godlygeek/tabular'
 
@@ -66,25 +65,25 @@ Plug 'jceb/vim-textobj-uri'
 Plug 'lucapette/vim-textobj-underscore'
 
 " Smarts                {{{2
-Plug 'neovim/nvim-lsp'
-Plug 'weilbith/nvim-lsp-smag'
+Plug 'neovim/nvim-lspconfig'
+"Plug 'weilbith/nvim-lsp-smag'
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/playground'
-Plug 'hrsh7th/nvim-compe'
-Plug 'onsails/lspkind-nvim'
+"Plug 'hrsh7th/nvim-compe'
+"Plug 'onsails/lspkind-nvim'
 Plug 'alexaandru/nvim-lspupdate'
-Plug 'liuchengxu/vista.vim'
+"Plug 'liuchengxu/vista.vim'
 Plug 'nvim-lua/lsp-status.nvim'
-Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
+"Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
 
 " Usability             {{{2
 Plug 'Konfekt/FastFold'
 Plug 'tpope/vim-obsession'
 
 " Pretties              {{{2
-Plug 'lukas-reineke/indent-blankline.nvim', {'branch': 'lua'}
+Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 
 " External stuff        {{{2
@@ -319,19 +318,8 @@ autocmd myvimrc BufEnter *github.com_*.txt set filetype=markdown
 let g:gitgutter_sign_priority = 1
 
 "### nvim-tree ###              {{{2
-let g:nvim_tree_ignore = [
-    \ '.git',
-    \ 'node_modules',
-    \ '.cache',
-    \ '__pycache__',
-    \ '.mypy_cache',
-    \ '.pytest_cache',
-\ ]
-let g:nvim_tree_follow = 1
 let g:nvim_tree_indent_markers = 1
-let g:nvim_tree_disable_netrw = 0
-let g:nvim_tree_width_allow_resize = 1
-let g:nvim_tree_width = 50
+lua require('plugins.nvim-tree')
 
 "### Vista.vim ###               {{{2
 let g:vista_executive_for = {
@@ -420,22 +408,22 @@ command! TableFormat call TableFormat()
 "#############################################################################
 "
 "### completion
-set completeopt=menu,menuone,noselect
-let g:compe = {}
-let g:compe.enabled = v:true
-
-let g:compe.source = {}
-let g:compe.source.path = {'menu': ''}
-let g:compe.source.buffer = {'menu': ''}
-let g:compe.source.nvim_lsp = {'menu': ''}
-let g:compe.source.nvim_lua = {'menu': ''}
-let g:compe.source.treesitter = {'menu': ''}
-let g:compe.source.vsnip = v:false
-let g:compe.source.tags = v:false
-
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <CR> compe#confirm('<CR>')
-inoremap <silent><expr> <C-e> compe#close('<C-e>')
+"set completeopt=menu,menuone,noselect
+"let g:compe = {}
+"let g:compe.enabled = v:true
+"
+"let g:compe.source = {}
+"let g:compe.source.path = {'menu': ''}
+"let g:compe.source.buffer = {'menu': ''}
+"let g:compe.source.nvim_lsp = {'menu': ''}
+"let g:compe.source.nvim_lua = {'menu': ''}
+"let g:compe.source.treesitter = {'menu': ''}
+"let g:compe.source.vsnip = v:false
+"let g:compe.source.tags = v:false
+"
+"inoremap <silent><expr> <C-Space> compe#complete()
+"inoremap <silent><expr> <CR> compe#confirm('<CR>')
+"inoremap <silent><expr> <C-e> compe#close('<C-e>')
 
 "### diagnostics            {{{2
 let g:diagnostic_enable_virtual_text = 1
