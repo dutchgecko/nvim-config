@@ -221,7 +221,7 @@ table.insert(components.active[1], {
 
 table.insert(components.active[2], {
     provider = function()
-        local count, icon = lsp.diagnostic_errors({icon = '  '})
+        local count, icon = lsp.diagnostic_errors()
         return icon .. count .. ' '
     end,
     enabled = function() return lsp.diagnostics_exist('ERROR') end,
@@ -234,7 +234,7 @@ table.insert(components.active[2], {
 
 table.insert(components.active[2], {
     provider = function()
-        local count, icon = lsp.diagnostic_warnings({icon = '  '})
+        local count, icon = lsp.diagnostic_warnings()
         return icon .. count .. ' '
     end,
     enabled = function() return lsp.diagnostics_exist('WARN') end,
@@ -244,7 +244,7 @@ table.insert(components.active[2], {
 
 table.insert(components.active[2], {
     provider = function()
-        local count, icon = lsp.diagnostic_hints({icon = ' ﯟ '})
+        local count, icon = lsp.diagnostic_hints()
         return icon .. count .. ' '
     end,
     enabled = function() return lsp.diagnostics_exist('HINT') end,
@@ -254,7 +254,7 @@ table.insert(components.active[2], {
 
 table.insert(components.active[2], {
     provider = function()
-        local count, icon = lsp.diagnostic_info({icon = '  '})
+        local count, icon = lsp.diagnostic_info()
         return icon .. count .. ' '
     end,
     enabled = function() return lsp.diagnostics_exist('INFO') end,
@@ -460,7 +460,7 @@ table.insert(components.inactive[1], {
 
 table.insert(components.inactive[2], {
     provider = function()
-        local count, icon = lsp.diagnostic_errors({icon = '  '})
+        local count, icon = lsp.diagnostic_errors()
         return icon .. count .. ' '
     end,
     enabled = function() return lsp.diagnostics_exist('ERROR') end,
@@ -472,7 +472,7 @@ table.insert(components.inactive[2], {
 })
 table.insert(components.inactive[2], {
     provider = function()
-        local count, icon = lsp.diagnostic_warnings({icon = '  '})
+        local count, icon = lsp.diagnostic_warnings()
         return icon .. count .. ' '
     end,
     enabled = function() return lsp.diagnostics_exist('WARN') end,
@@ -481,7 +481,7 @@ table.insert(components.inactive[2], {
 })
 table.insert(components.inactive[2], {
     provider = function()
-        local count, icon = lsp.diagnostic_hints({icon = ' ﯟ '})
+        local count, icon = lsp.diagnostic_hints()
         return icon .. count .. ' '
     end,
     enabled = function() return lsp.diagnostics_exist('HINT') end,
@@ -490,7 +490,7 @@ table.insert(components.inactive[2], {
 })
 table.insert(components.inactive[2], {
     provider = function()
-        local count, icon = lsp.diagnostic_info({icon = '  '})
+        local count, icon = lsp.diagnostic_info()
         return icon .. count .. ' '
     end,
     enabled = function() return lsp.diagnostics_exist('INFO') end,
