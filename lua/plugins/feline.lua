@@ -63,23 +63,6 @@ local vi_mode_colors = {
 
 M.vi_mode_colors = vi_mode_colors
 
--- local vi_mode_icon = {
---     NORMAL = nonicons.get("vim-normal-mode"),
---     OP = nonicons.get("vim-normal-mode"),
---     INSERT = nonicons.get("vim-insert-mode"),
---     VISUAL = nonicons.get("vim-visual-mode"),
---     BLOCK = nonicons.get("vim-visual-mode"),
---     REPLACE = nonicons.get("vim-replace-mode"),
---     ['V-REPLACE'] = nonicons.get("vim-replace-mode"),
---     ENTER = nonicons.get("vim-normal-mode"),
---     MORE = nonicons.get("vim-normal-mode"),
---     SELECT = nonicons.get("vim-select-mode"),
---     COMMAND = nonicons.get("vim-command-mode"),
---     SHELL = nonicons.get("vim-terminal-mode"),
---     TERM = nonicons.get("vim-terminal-mode"),
---     NONE = " ",
--- }
-
 local vi_mode_icon = {
     NORMAL = 'N',
     OP = 'N',
@@ -476,7 +459,10 @@ table.insert(components.inactive[1], {
 --- inactive right
 
 table.insert(components.inactive[2], {
-    provider = function() return lsp.diagnostic_errors({icon = '  '}) .. ' ' end,
+    provider = function()
+        local count, icon = lsp.diagnostic_errors({icon = '  '})
+        return icon .. count .. ' '
+    end,
     enabled = function() return lsp.diagnostics_exist('ERROR') end,
     left_sep = {
         str = 'left_filled',
@@ -485,26 +471,38 @@ table.insert(components.inactive[2], {
     hl = function() return {fg = colors.bg0, bg = colors.grey} end,
 })
 table.insert(components.inactive[2], {
-    provider = function() return lsp.diagnostic_warnings({icon = '  '}) .. ' ' end,
+    provider = function()
+        local count, icon = lsp.diagnostic_warnings({icon = '  '})
+        return icon .. count .. ' '
+    end,
     enabled = function() return lsp.diagnostics_exist('WARN') end,
     left_sep = error_sep_curried('WARN', true),
     hl = function() return {fg = colors.bg0, bg = colors.grey} end,
 })
 table.insert(components.inactive[2], {
-    provider = function() return lsp.diagnostic_hints({icon = ' ﯟ '}) .. ' ' end,
+    provider = function()
+        local count, icon = lsp.diagnostic_hints({icon = ' ﯟ '})
+        return icon .. count .. ' '
+    end,
     enabled = function() return lsp.diagnostics_exist('HINT') end,
     left_sep = error_sep_curried('HINT', true),
     hl = function() return {fg = colors.bg0, bg = colors.grey} end,
 })
 table.insert(components.inactive[2], {
-    provider = function() return lsp.diagnostic_info({icon = '  '}) .. ' ' end,
+    provider = function()
+        local count, icon = lsp.diagnostic_info({icon = '  '})
+        return icon .. count .. ' '
+    end,
     enabled = function() return lsp.diagnostics_exist('INFO') end,
     left_sep = error_sep_curried('INFO', true),
     hl = function() return {fg = colors.bg0, bg = colors.grey} end,
 })
 
 table.insert(components.inactive[2], {
-    provider = 'git_branch',
+    provider = function()
+        local branch, icon = git.git_branch({}, getwin())
+        return ' ' .. icon .. branch
+    end,
     enabled = function()
         local gsd = vim.b.gitsigns_status_dict
         return gsd and gsd.head and #gsd.head > 0

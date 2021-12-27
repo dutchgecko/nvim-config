@@ -75,7 +75,7 @@ Plug 'nvim-treesitter/playground'
 "Plug 'onsails/lspkind-nvim'
 Plug 'alexaandru/nvim-lspupdate'
 "Plug 'liuchengxu/vista.vim'
-Plug 'nvim-lua/lsp-status.nvim'
+"Plug 'nvim-lua/lsp-status.nvim'
 "Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
 
 " Usability             {{{2
@@ -429,10 +429,10 @@ command! TableFormat call TableFormat()
 let g:diagnostic_enable_virtual_text = 1
 let g:diagnostic_virtual_text_prefix = ''
 
-call sign_define("LspDiagnosticsSignError", {"text": "", "texthl": "LspDiagnosticsSignError"})
-call sign_define("LspDiagnosticsSignWarning", {"text": "", "texthl": "LspDiagnosticsSignWarning"})
-call sign_define("LspDiagnosticsSignInformation", {"text": "", "texthl": "LspDiagnosticsSignInformation"})
-call sign_define("LspDiagnosticsSignHint", {"text": "ﯟ", "texthl": "LspDiagnosticsSignHint"})
+call sign_define("DiagnosticSignError", {"text": "", "texthl": "DiagnosticSignError"})
+call sign_define("DiagnosticSignWarn", {"text": "", "texthl": "DiagnosticSignWarn"})
+call sign_define("DiagnosticSignInfo", {"text": "", "texthl": "DiagnosticSignInfo"})
+call sign_define("DiagnosticSignHint", {"text": "", "texthl": "DiagnosticSignHint"})
 
 nnoremap ]d <cmd>lua vim.lsp.diagnostic.goto_next { wrap = false }<CR>
 nnoremap [d <cmd>lua vim.lsp.diagnostic.goto_prev { wrap = false }<CR>

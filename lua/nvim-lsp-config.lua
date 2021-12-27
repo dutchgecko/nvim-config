@@ -1,25 +1,10 @@
 local lsp = require 'lspconfig'
-local lsp_status = require 'lsp-status'
-local myicons = require('myicons')
 
 local M = {}
 
--- lsp_status setup
-lsp_status.register_progress()
-lsp_status.config({
-    kind_labels = myicons,
-    indicator_errors = "",
-    indicator_warnings = "",
-    indicator_info = "",
-    indicator_hint = "ﯟ",
-    indicator_ok = "",
-    status_symbol = "",
-})
-
+---@diagnostic disable-next-line:unused-local
 local function on_attach(client, buffer)
     -- custom on_attach calls
-
-    lsp_status.on_attach(client, buffer)
 
     local capabilities = vim.lsp.buf_get_clients()[
             next(vim.lsp.buf_get_clients())
@@ -95,7 +80,6 @@ local function lsp_test_and_load(lserver, settings, cmd)
             cmd=top_cmd,
             on_attach=on_attach,
             settings = settings,
-            capabilities = vim.tbl_extend("keep", lsp[lserver].capabilities or {}, lsp_status.capabilities),
         }
     end
 end
@@ -129,7 +113,7 @@ local lua_settings = {
 local function get_lua_cmd()
     local sumneko_root_path = vim.fn.expand('~/build/lua-language-server')
     return {
-        sumneko_root_path..'/bin/Linux/lua-language-server',
+        sumneko_root_path..'/bin/lua-language-server',
         '-E',
         sumneko_root_path..'/main.lua'
     }
