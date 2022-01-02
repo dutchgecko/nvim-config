@@ -73,8 +73,7 @@ Plug 'nvim-treesitter/playground'
 "Plug 'onsails/lspkind-nvim'
 Plug 'alexaandru/nvim-lspupdate'
 "Plug 'liuchengxu/vista.vim'
-"Plug 'nvim-lua/lsp-status.nvim'
-"Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
+Plug 'norcalli/nvim-colorizer.lua'
 
 " Usability             {{{2
 Plug 'Konfekt/FastFold'
@@ -374,6 +373,8 @@ require('bufferline').setup{
     }
 }
 EOF
+
+lua require'colorizer'.setup()
 
 "#############################################################################
 "### Functions                                                      {{{1    ##
