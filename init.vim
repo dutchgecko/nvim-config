@@ -50,7 +50,6 @@ Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'CarloDePieri/pytest-vim-compiler'
 
 " Editing               {{{2
-"Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'kshenoy/vim-signature'
 Plug 'godlygeek/tabular'
 
@@ -66,7 +65,6 @@ Plug 'lucapette/vim-textobj-underscore'
 
 " Smarts                {{{2
 Plug 'neovim/nvim-lspconfig'
-"Plug 'weilbith/nvim-lsp-smag'
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'nvim-treesitter/nvim-treesitter'

@@ -25,6 +25,9 @@ local function on_attach(client, buffer)
     elseif capabilities.goto_definition then
         create_conditional_map('gd', 'definition')
     end
+    if capabilities.goto_definition then
+        vim.api.nvim_buf_set_option(0, "tagfunc", "v:lua.vim.lsp.tagfunc")
+    end
     if capabilities.document_symbol then
         create_conditional_map('g0', 'document_symbol')
     end
