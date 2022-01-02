@@ -2,6 +2,20 @@ local lsp = require 'lspconfig'
 
 local M = {}
 
+local function format_range_operator()
+    local old_func = vim.go.operatorfunc
+    _G.op_func_formatting = function()
+        local start = vim.api.nvim_buf_get_mark(0, '[')
+        local finish = vim.api.nvim_buf_get_mark(0, ']')
+        vim.lsp.buf.range_formatting({}, start, finish)
+        vim.go.operatorfunc = old_func
+        _G.op_func_formatting = nil
+    end
+    vim.go.operatorfunc = 'v:lua.op_func_formatting'
+    vim.api.nvim_feedkeys('g@', 'n', false)
+end
+M.format_range_operator = format_range_operator
+
 ---@diagnostic disable-next-line:unused-local
 local function on_attach(client, buffer)
     -- custom on_attach calls
@@ -57,6 +71,8 @@ local function on_attach(client, buffer)
             .. '{}, {<line1>, 1}, {<line2>, 1}'
             .. ')'
         )
+        vim.api.nvim_buf_set_keymap(0, 'v', 'gq', "<cmd>lua require'nvim-lsp-config'.format_range_operator()<CR>", {noremap = true})
+        vim.api.nvim_buf_set_keymap(0, 'n', 'gq', "<cmd>lua require'nvim-lsp-config'.format_range_operator()<CR>", {noremap = true})
     elseif capabilities.document_formatting then
         vim.api.nvim_command(
             'command! -buffer LspFormat '
