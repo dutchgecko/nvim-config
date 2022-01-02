@@ -432,9 +432,9 @@ call sign_define("DiagnosticSignWarn", {"text": "", "texthl": "DiagnosticSign
 call sign_define("DiagnosticSignInfo", {"text": "", "texthl": "DiagnosticSignInfo"})
 call sign_define("DiagnosticSignHint", {"text": "", "texthl": "DiagnosticSignHint"})
 
-nnoremap ]d <cmd>lua vim.lsp.diagnostic.goto_next { wrap = false }<CR>
-nnoremap [d <cmd>lua vim.lsp.diagnostic.goto_prev { wrap = false }<CR>
-nnoremap <leader><leader> <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+nnoremap ]d <cmd>lua vim.diagnostic.goto_next { wrap = false }<CR>
+nnoremap [d <cmd>lua vim.diagnostic.goto_prev { wrap = false }<CR>
+nnoremap <leader><leader> <cmd>lua vim.diagnostic.open_float()<CR>
 
 function LspLoadPlugins()
     lua require'nvim-lsp-config'.do_setup()
