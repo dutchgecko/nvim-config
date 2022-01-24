@@ -148,7 +148,10 @@ colorscheme sonokai
 highlight link TSConstructor TSType
 highlight link TSPunctBracket Purple
 highlight link TSPunctSpecial Purple
-highlight link TSType Blue
+"highlight link TSType Blue
+highlight link TSParameter Orange
+highlight link TSParameterReference Orange
+highlight link TSProperty Purple
 
 if !has('gui')
     highlight ErrorText cterm=italic gui=italic
