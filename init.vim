@@ -24,6 +24,7 @@ Plug 'nvim-lua/plenary.nvim'
 
 " Colorschemes          {{{2
 Plug 'sainnhe/sonokai'
+Plug 'EdenEast/nightfox.nvim'
 
 " Interface             {{{2
 Plug 'famiu/feline.nvim'
@@ -140,25 +141,25 @@ set termguicolors
 set background=dark
 let g:sonokai_style = 'atlantis'
 let g:sonokai_enable_italic = 1
-colorscheme sonokai
+colorscheme nightfox
 
 "#############################################################################
 "### Colorscheme and highlighting adjustments                       {{{1    ##
 "#############################################################################
-highlight link TSConstructor TSType
-highlight link TSPunctBracket Purple
-highlight link TSPunctSpecial Purple
-"highlight link TSType Blue
-highlight link TSParameter Orange
-highlight link TSParameterReference Orange
-highlight link TSProperty Purple
-
-if !has('gui')
-    highlight ErrorText cterm=italic gui=italic
-    highlight WarningText cterm=italic gui=italic
-    highlight InfoText cterm=italic gui=italic
-    highlight HintText cterm=italic gui=italic
-endif
+" highlight link TSConstructor TSType
+" highlight link TSPunctBracket Purple
+" highlight link TSPunctSpecial Purple
+" "highlight link TSType Blue
+" highlight link TSParameter Orange
+" highlight link TSParameterReference Orange
+" highlight link TSProperty Purple
+" 
+" if !has('gui')
+"     highlight ErrorText cterm=italic gui=italic
+"     highlight WarningText cterm=italic gui=italic
+"     highlight InfoText cterm=italic gui=italic
+"     highlight HintText cterm=italic gui=italic
+" endif
 
 "#############################################################################
 "### GUI Settings                                                   {{{1    ##
@@ -317,10 +318,6 @@ autocmd myvimrc BufEnter *github.com_*.txt set filetype=markdown
 "### Gitgutter ###           {{{2
 let g:gitgutter_sign_priority = 1
 
-"### nvim-tree ###              {{{2
-let g:nvim_tree_indent_markers = 1
-lua require('plugins.nvim-tree')
-
 "### Vista.vim ###               {{{2
 let g:vista_executive_for = {
     \ 'sh': 'nvim_lsp',
@@ -356,7 +353,12 @@ let g:Hexokinase_highlighters = ['virtual']
 "#############################################################################
 "### Lua plugin setup                                               {{{1    ##
 "#############################################################################
+"### gitsigns ###              {{{2
 lua require('gitsigns').setup({signs = {changedelete = {text = '╞'}}})
+
+"### nvim-tree ###              {{{2
+let g:nvim_tree_indent_markers = 1
+lua require('plugins.nvim-tree')
 
 lua << EOF
 if not require'nvim-web-devicons'.has_loaded() then
@@ -364,8 +366,10 @@ if not require'nvim-web-devicons'.has_loaded() then
 end
 EOF
 
+"### feline ###              {{{2
 lua require('plugins.feline')
 
+"### bufferline ###              {{{2
 lua << EOF
 require('bufferline').setup{
     options = {
@@ -389,6 +393,7 @@ require('bufferline').setup{
 }
 EOF
 
+"### colorizer ###              {{{2
 lua require'colorizer'.setup()
 
 "#############################################################################
