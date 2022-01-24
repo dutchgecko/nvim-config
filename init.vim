@@ -373,6 +373,18 @@ require('bufferline').setup{
         numbers = function(opts)
             return string.format('%s ', opts.id)
         end,
+        diagnostics = "nvim_lsp",
+        custom_filter = function(bufnr)
+            if vim.bo[bufnr].filetype ~= "qf" then
+                return true
+            end
+            return false
+        end,
+        offsets = {{
+            filetype = "NvimTree",
+            text = "Files",
+            text_align = "left",
+        }},
     }
 }
 EOF
