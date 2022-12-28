@@ -43,22 +43,25 @@ setupcolors()
 
 M.colors = colors
 
+local nightfox = require('nightfox.colors').init()
+M.nightfox = nightfox
+
 local vi_mode_colors = {
-    NORMAL = colors.bg_blue,
-    OP = colors.bg_blue,
-    INSERT = colors.bg_green,
-    VISUAL = colors.purple,
-    LINES = colors.purple,
-    BLOCK = colors.purple,
-    REPLACE = colors.yellow,
-    ['V-REPLACE'] = colors.yellow,
-    ENTER = colors.bg_blue,
-    MORE = colors.bg_blue,
-    SELECT = colors.yellow,
-    COMMAND = colors.orange,
-    SHELL = colors.bg_blue,
-    TERM = colors.bg_blue,
-    NONE = colors.orange,
+    NORMAL = nightfox.blue,
+    OP = nightfox.blue,
+    INSERT = nightfox.green,
+    VISUAL = nightfox.magenta_br,
+    LINES = nightfox.magenta_br,
+    BLOCK = nightfox.magenta_br,
+    REPLACE = nightfox.yellow_br,
+    ['V-REPLACE'] = nightfox.yellow_br,
+    ENTER = nightfox.blue,
+    MORE = nightfox.blue,
+    SELECT = nightfox.yellow_br,
+    COMMAND = nightfox.orange_br,
+    SHELL = nightfox.blue,
+    TERM = nightfox.blue,
+    NONE = nightfox.orange_br,
 }
 
 M.vi_mode_colors = vi_mode_colors
@@ -104,17 +107,17 @@ end
 
 local function error_bg(greyscale)
     local color_map = {
-        ERROR = colors.bg_red,
-        WARN = colors.yellow,
-        INFO = colors.bg_blue,
-        HINT = colors.bg_green,
+        ERROR = nightfox.error,
+        WARN = nightfox.warning,
+        INFO = nightfox.info,
+        HINT = nightfox.hint,
     }
     if greyscale and error_level() then
-        return colors.grey
+        return nightfox.bg_search
     elseif error_level() then
         return color_map[error_level()]
     else
-        return colors.bg1
+        return nightfox.bg_statusline
     end
 end
 
@@ -133,7 +136,7 @@ local function error_sep_curried(level, greyscale)
         else
             return {
                 str = 'left',
-                hl = {fg = colors.bg0, bg = error_bg(greyscale)},
+                hl = {fg = nightfox.bg_statusline, bg = error_bg(greyscale)},
             }
         end
     end
@@ -166,7 +169,7 @@ table.insert(components.active[1], {
     end,
     hl = function()
         local hl = {}
-        hl.fg = colors.bg0
+        hl.fg = nightfox.black
         hl.bg = vi_mode_colors[vi_mode.get_vim_mode()]
         hl.style = 'bold'
         return hl
@@ -176,7 +179,7 @@ table.insert(components.active[1], {
     end,
     right_sep = makesep(
         'right_filled',
-        colors.bg4,
+        nightfox.bg_visual,
         function() return vi_mode_colors[vi_mode.get_vim_mode()] end
     ),
 })
@@ -192,12 +195,12 @@ table.insert(components.active[1], {
     end,
     hl = function()
         return {
-            fg = vim.bo.modified and colors.yellow or colors.fg,
-            bg = colors.bg4,
+            fg = vim.bo.modified and nightfox.yellow or nightfox.fg,
+            bg = nightfox.bg_visual,
             style = vim.bo.modified and 'bold' or nil,
         }
     end,
-    left_sep = {str = ' ', hl = {bg = colors.bg4}},
+    left_sep = {str = ' ', hl = {bg = nightfox.bg_visual}},
     right_sep = 'right_filled',
 })
 
@@ -206,7 +209,7 @@ table.insert(components.active[1], {
         return vim.b.lsp_current_function or ''
     end,
     left_sep = ' ',
-    right_sep = {' ', {str = 'right', hl = {fg = colors.grey}},},
+    right_sep = {' ', {str = 'right', hl = {fg = nightfox.black}},},
     enabled = function()
         return (
             (#vim.lsp.buf_get_clients() > 0)
@@ -214,7 +217,7 @@ table.insert(components.active[1], {
             and vim.b.lsp_current_function ~= ''
         )
     end,
-    hl = {fg = colors.grey},
+    hl = {fg = nightfox.black},
 })
 
 --- right side
@@ -227,9 +230,9 @@ table.insert(components.active[2], {
     enabled = function() return lsp.diagnostics_exist('ERROR') end,
     left_sep = {
         str = 'left_filled',
-        hl = {fg = colors.bg_red},
+        hl = {fg = nightfox.error},
     },
-    hl = function() return {fg = colors.bg0, bg = error_bg()} end,
+    hl = function() return {fg = nightfox.bg_statusline, bg = error_bg()} end,
 })
 
 table.insert(components.active[2], {
@@ -239,7 +242,7 @@ table.insert(components.active[2], {
     end,
     enabled = function() return lsp.diagnostics_exist('WARN') end,
     left_sep = error_sep_curried('WARN'),
-    hl = function() return {fg = colors.bg0, bg = error_bg()} end,
+    hl = function() return {fg = nightfox.bg_statusline, bg = error_bg()} end,
 })
 
 table.insert(components.active[2], {
@@ -249,7 +252,7 @@ table.insert(components.active[2], {
     end,
     enabled = function() return lsp.diagnostics_exist('HINT') end,
     left_sep = error_sep_curried('HINT'),
-    hl = function() return {fg = colors.bg0, bg = error_bg()} end,
+    hl = function() return {fg = nightfox.bg_statusline, bg = error_bg()} end,
 })
 
 table.insert(components.active[2], {
@@ -259,7 +262,7 @@ table.insert(components.active[2], {
     end,
     enabled = function() return lsp.diagnostics_exist('INFO') end,
     left_sep = error_sep_curried('INFO'),
-    hl = function() return {fg = colors.bg0, bg = error_bg()} end,
+    hl = function() return {fg = nightfox.bg_statusline, bg = error_bg()} end,
 })
 
 table.insert(components.active[2], {
@@ -274,11 +277,11 @@ table.insert(components.active[2], {
     left_sep = function()
         return {
             str = 'left_filled',
-            hl = {bg = error_bg(), fg = colors.bg4}
+            hl = {bg = error_bg(), fg = nightfox.bg_visual}
         }
     end,
-    right_sep = {str = ' ', hl = {bg = colors.bg4}},
-    hl = {bg = colors.bg4},
+    right_sep = {str = ' ', hl = {bg = nightfox.bg_visual}},
+    hl = {bg = nightfox.bg_visual},
 })
 table.insert(components.active[2], {
     provider = 'git_diff_added',
@@ -286,8 +289,8 @@ table.insert(components.active[2], {
         local gsd = vim.b.gitsigns_status_dict
         return gsd and gsd['added'] and gsd['added'] > 0
     end,
-    left_sep = {str = 'left', hl = {bg = colors.bg4}},
-    hl = {bg = colors.bg4},
+    left_sep = {str = 'left', hl = {bg = nightfox.bg_visual}},
+    hl = {bg = nightfox.bg_visual},
 })
 table.insert(components.active[2], {
     provider = 'git_diff_changed',
@@ -303,9 +306,9 @@ table.insert(components.active[2], {
         else
             str = 'left'
         end
-        return {str = str, hl = {bg = colors.bg4}}
+        return {str = str, hl = {bg = nightfox.bg_visual}}
     end,
-    hl = {bg = colors.bg4},
+    hl = {bg = nightfox.bg_visual},
 })
 table.insert(components.active[2], {
     provider = 'git_diff_removed',
@@ -326,9 +329,9 @@ table.insert(components.active[2], {
         else
             str = 'left'
         end
-        return {str = str, hl = {bg = colors.bg4}}
+        return {str = str, hl = {bg = nightfox.bg_visual}}
     end,
-    hl = {bg = colors.bg4},
+    hl = {bg = nightfox.bg_visual},
 })
 table.insert(components.active[2], {
     provider = ' ',
@@ -340,14 +343,14 @@ table.insert(components.active[2], {
             (gsd['removed'] and gsd['removed'] > 0)
         )
     end,
-    hl = {bg = colors.bg4},
+    hl = {bg = nightfox.bg_visual},
 })
 
 table.insert(components.active[2], {
     provider = ' ',
     hl = function()
         local hl = {}
-        hl.fg = colors.bg0
+        hl.fg = nightfox.black
         hl.bg = vi_mode_colors[vi_mode.get_vim_mode()]
         return hl
     end,
@@ -357,7 +360,7 @@ table.insert(components.active[2], {
             local gsd = vim.b.gitsigns_status_dict
             local git_active = gsd and gsd.head and #gsd.head > 0
             if git_active then
-                return colors.bg4
+                return nightfox.bg_visual
             else
                 return error_bg()
             end
@@ -369,56 +372,56 @@ table.insert(components.active[2], {
     provider = 'file_encoding',
     hl = function()
         local hl = {}
-        hl.fg = colors.bg0
+        hl.fg = nightfox.black
         hl.bg = vi_mode_colors[vi_mode.get_vim_mode()]
         return hl
     end,
     right_sep = makesep(
         ' ',
         function() return vi_mode_colors[vi_mode.get_vim_mode()] end,
-        colors.bg4
+        nightfox.bg_statusline
     ),
 })
 table.insert(components.active[2], {
     provider = file_osinfo,
     hl = function()
         local hl = {}
-        hl.fg = colors.bg0
+        hl.fg = nightfox.black
         hl.bg = vi_mode_colors[vi_mode.get_vim_mode()]
         return hl
     end,
     right_sep = makesep(
         ' ',
         function() return vi_mode_colors[vi_mode.get_vim_mode()] end,
-        colors.bg4
+        nightfox.bg_statusline
     ),
 })
 table.insert(components.active[2], {
     provider = ' ',
     hl = function()
         local hl = {}
-        hl.fg = colors.bg0
+        hl.fg = nightfox.black
         hl.bg = vi_mode_colors[vi_mode.get_vim_mode()]
         return hl
     end,
     left_sep = makesep(
         'left',
         function() return vi_mode_colors[vi_mode.get_vim_mode()] end,
-        colors.bg0
+        nightfox.black
     ),
 })
 table.insert(components.active[2], {
     provider = 'line_percentage',
     hl = function()
         local hl = {}
-        hl.fg = colors.bg0
+        hl.fg = nightfox.black
         hl.bg = vi_mode_colors[vi_mode.get_vim_mode()]
         return hl
     end,
     right_sep = makesep(
         ' ',
         function() return vi_mode_colors[vi_mode.get_vim_mode()] end,
-        colors.bg0
+        nightfox.black
     )
 })
 
@@ -427,12 +430,12 @@ table.insert(components.active[2], {
 table.insert(components.inactive[1], {
     provider = '   ',
     hl = {
-        bg = colors.grey,
+        bg = nightfox.bg_statusline,
     },
     right_sep = makesep(
         'right_filled',
-        colors.bg2,
-        colors.grey
+        nightfox.bg_search,
+        nightfox.bg_statusline
     )
 })
 
@@ -447,12 +450,12 @@ table.insert(components.inactive[1], {
     end,
     hl = function()
         return {
-            fg = colors.grey,
-            bg = colors.bg2,
+            fg = nightfox.bg_statusline,
+            bg = nightfox.bg_search,
             style = vim.bo.modified and 'bold' or nil,
         }
     end,
-    left_sep = {str = ' ', hl = {bg = colors.bg2}},
+    left_sep = {str = ' ', hl = {bg = nightfox.bg_search}},
     right_sep = 'right_filled',
 })
 
@@ -466,9 +469,9 @@ table.insert(components.inactive[2], {
     enabled = function() return lsp.diagnostics_exist('ERROR') end,
     left_sep = {
         str = 'left_filled',
-        hl = {fg = colors.grey},
+        hl = {fg = nightfox.bg_search},
     },
-    hl = function() return {fg = colors.bg0, bg = colors.grey} end,
+    hl = function() return {fg = nightfox.bg_statusline, bg = nightfox.bg_search} end,
 })
 table.insert(components.inactive[2], {
     provider = function()
@@ -477,7 +480,7 @@ table.insert(components.inactive[2], {
     end,
     enabled = function() return lsp.diagnostics_exist('WARN') end,
     left_sep = error_sep_curried('WARN', true),
-    hl = function() return {fg = colors.bg0, bg = colors.grey} end,
+    hl = function() return {fg = nightfox.bg_statusline, bg = nightfox.bg_search} end,
 })
 table.insert(components.inactive[2], {
     provider = function()
@@ -486,7 +489,7 @@ table.insert(components.inactive[2], {
     end,
     enabled = function() return lsp.diagnostics_exist('HINT') end,
     left_sep = error_sep_curried('HINT', true),
-    hl = function() return {fg = colors.bg0, bg = colors.grey} end,
+    hl = function() return {fg = nightfox.bg_statusline, bg = nightfox.bg_search} end,
 })
 table.insert(components.inactive[2], {
     provider = function()
@@ -495,7 +498,7 @@ table.insert(components.inactive[2], {
     end,
     enabled = function() return lsp.diagnostics_exist('INFO') end,
     left_sep = error_sep_curried('INFO', true),
-    hl = function() return {fg = colors.bg0, bg = colors.grey} end,
+    hl = function() return {fg = nightfox.bg_statusline, bg = nightfox.bg_search} end,
 })
 
 table.insert(components.inactive[2], {
@@ -510,11 +513,11 @@ table.insert(components.inactive[2], {
     left_sep = function()
         return {
             str = 'left_filled',
-            hl = {bg = error_bg(true), fg = colors.bg2}
+            hl = {bg = error_bg(true), fg = nightfox.black}
         }
     end,
-    right_sep = {str = ' ', hl = {bg = colors.bg2}},
-    hl = {bg = colors.bg2, fg=colors.grey},
+    right_sep = {str = ' ', hl = {bg = nightfox.black}},
+    hl = {bg = nightfox.black, fg=nightfox.white_dm},
 })
 table.insert(components.inactive[2], {
     provider = 'git_diff_added',
@@ -522,8 +525,8 @@ table.insert(components.inactive[2], {
         local gsd = vim.b.gitsigns_status_dict
         return gsd and gsd['added'] and gsd['added'] > 0
     end,
-    left_sep = {str = 'left', hl = {bg = colors.bg2, fg=colors.grey}},
-    hl = {bg = colors.bg2, fg=colors.grey},
+    left_sep = {str = 'left', hl = {bg = nightfox.black, fg=nightfox.white_dm}},
+    hl = {bg = nightfox.black, fg=nightfox.white_dm},
 })
 table.insert(components.inactive[2], {
     provider = 'git_diff_changed',
@@ -539,9 +542,9 @@ table.insert(components.inactive[2], {
         else
             str = 'left'
         end
-        return {str = str, hl = {bg = colors.bg2, fg=colors.grey}}
+        return {str = str, hl = {bg = nightfox.black, fg=nightfox.white_dm}}
     end,
-    hl = {bg = colors.bg2, fg=colors.grey},
+    hl = {bg = nightfox.black, fg=nightfox.white_dm},
 })
 table.insert(components.inactive[2], {
     provider = 'git_diff_removed',
@@ -562,9 +565,9 @@ table.insert(components.inactive[2], {
         else
             str = 'left'
         end
-        return {str = str, hl = {bg = colors.bg2, fg=colors.grey}}
+        return {str = str, hl = {bg = nightfox.black, fg=nightfox.white_dm}}
     end,
-    hl = {bg = colors.bg2, fg=colors.grey},
+    hl = {bg = nightfox.black, fg=nightfox.white_dm},
 })
 table.insert(components.inactive[2], {
     provider = ' ',
@@ -576,14 +579,14 @@ table.insert(components.inactive[2], {
             (gsd['removed'] and gsd['removed'] > 0)
         )
     end,
-    hl = {bg = colors.bg2},
+    hl = {bg = nightfox.black},
 })
 
 table.insert(components.inactive[2], {
     provider = ' ',
     hl = {
-        fg = colors.bg0,
-        bg = colors.bg4,
+        fg = nightfox.white_dm,
+        bg = nightfox.black,
     },
     left_sep = makesep(
         'left_filled',
@@ -591,23 +594,23 @@ table.insert(components.inactive[2], {
             local gsd = vim.b.gitsigns_status_dict
             local git_active = gsd and gsd.head and #gsd.head > 0
             if git_active then
-                return colors.bg2
+                return nightfox.black
             else
                 return error_bg(true)
             end
         end,
-        colors.bg4
+        nightfox.bg_statusline
     ),
 })
 table.insert(components.inactive[2], {
     provider = 'file_encoding',
     hl = {
         fg = colors.grey,
-        bg = colors.bg4,
+        bg = nightfox.bg_statusline,
     },
     right_sep = makesep(
         ' ',
-        colors.bg4,
+        nightfox.bg_statusline,
         colors.bg2
     ),
 })
@@ -615,23 +618,23 @@ table.insert(components.inactive[2], {
     provider = file_osinfo,
     hl = {
         fg = colors.grey,
-        bg = colors.bg4,
+        bg = nightfox.bg_statusline,
     },
     right_sep = makesep(
         ' ',
-        colors.bg4,
-        colors.bg4
+        nightfox.bg_statusline,
+        nightfox.bg_statusline
     ),
 })
 table.insert(components.inactive[2], {
     provider = ' ',
     hl = {
         fg = colors.grey,
-        bg = colors.bg4,
+        bg = nightfox.bg_statusline,
     },
     left_sep = makesep(
         'left',
-        colors.bg4,
+        nightfox.bg_statusline,
         colors.grey
     ),
 })
@@ -639,11 +642,11 @@ table.insert(components.inactive[2], {
     provider = 'line_percentage',
     hl = {
         fg = colors.grey,
-        bg = colors.bg4,
+        bg = nightfox.bg_statusline,
     },
     right_sep = makesep(
         ' ',
-        colors.bg4,
+        nightfox.bg_statusline,
         colors.grey
     )
 })
@@ -652,8 +655,8 @@ table.insert(components.inactive[2], {
 
 feline.setup({
     theme = {
-        bg = colors.bg1,
-        fg = colors.fg,
+        bg = nightfox.bg_statusline,
+        fg = nightfox.fg,
     },
     components = components,
 })

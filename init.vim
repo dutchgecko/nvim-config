@@ -27,7 +27,7 @@ Plug 'sainnhe/sonokai'
 Plug 'EdenEast/nightfox.nvim'
 
 " Interface             {{{2
-Plug 'famiu/feline.nvim'
+Plug 'feline-nvim/feline.nvim'
 Plug 'edkolev/promptline.vim'
 Plug 'hoov/tmuxline.vim'
 Plug 'akinsho/nvim-bufferline.lua'
@@ -141,7 +141,7 @@ set termguicolors
 set background=dark
 let g:sonokai_style = 'atlantis'
 let g:sonokai_enable_italic = 1
-colorscheme nightfox
+" colorscheme nightfox
 
 "#############################################################################
 "### Colorscheme and highlighting adjustments                       {{{1    ##
@@ -353,6 +353,9 @@ let g:Hexokinase_highlighters = ['virtual']
 "#############################################################################
 "### Lua plugin setup                                               {{{1    ##
 "#############################################################################
+"### nightfox ###               {{{2
+lua require('plugins.nightfox')
+
 "### gitsigns ###              {{{2
 lua require('gitsigns').setup({signs = {changedelete = {text = '╞'}}})
 
