@@ -19,10 +19,10 @@ vim.opt.linebreak = true
 vim.opt.showbreak = ' => '
 vim.opt.list = true
 vim.opt.listchars = {
-    tab = 'ﲖﲒ',
-    trail = '■',
-    extends = '',
-    precedes = '',
+  tab = 'ﲖﲒ',
+  trail = '■',
+  extends = '',
+  precedes = '',
 }
 
 vim.opt.foldlevel = 999
