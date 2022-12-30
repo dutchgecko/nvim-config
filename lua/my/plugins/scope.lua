@@ -1,3 +1,8 @@
-return {
-  { 'tiagovla/scope.nvim', config = true },
+local M = {
+  {
+    'tiagovla/scope.nvim',
+    config = true,
+  },
 }
+
+return M
