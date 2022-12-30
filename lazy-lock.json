@@ -1,7 +1,10 @@
 {
   "bufferline.nvim": { "branch": "main", "commit": "c7492a76ce8218e3335f027af44930576b561013" },
-  "lazy.nvim": { "branch": "main", "commit": "60ccfe3e277d976c44adfeadbebf6e5d4cc200c1" },
-  "nightfox.nvim": { "branch": "main", "commit": "c0dff938207a1a01dc9cb494fc4519d4dabb5ee7" },
+  "lazy.nvim": { "branch": "main", "commit": "8d452e37bbf16cfd8841cca4286c2b0f7c8db669" },
+  "nightfox.nvim": { "branch": "main", "commit": "21e7e733e28b79b876e6bd514e6046a8da63ddae" },
+  "nvim-treesitter": { "branch": "master", "commit": "ee3e9f4dc0e5ee9e2bfb1ee47638375840b8fe0f" },
   "nvim-web-devicons": { "branch": "master", "commit": "05e1072f63f6c194ac6e867b567e6b437d3d4622" },
-  "scope.nvim": { "branch": "main", "commit": "2db6d31de8e3a98d2b41c0f0d1f5dc299ee76875" }
+  "scope.nvim": { "branch": "main", "commit": "2db6d31de8e3a98d2b41c0f0d1f5dc299ee76875" },
+  "undotree": { "branch": "master", "commit": "1a23ea84bd02c34f50d8e10a8b4bfc89597ffe4e" },
+  "vim-fugitive": { "branch": "master", "commit": "99cdb88bc64063dc4656ae53496f06fb2a394cd4" }
 }
