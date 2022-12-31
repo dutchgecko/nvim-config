@@ -40,4 +40,6 @@ function M.config()
   lsp.setup()
 end
 
+M.event = 'VeryLazy'
+
 return M
