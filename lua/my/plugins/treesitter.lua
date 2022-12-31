@@ -32,6 +32,9 @@ function M.config()
       disable = {},
     },
   }
+
+  vim.opt.foldmethod = 'expr'
+  vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 end
 
 return M
