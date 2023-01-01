@@ -40,6 +40,6 @@ function M.config()
   lsp.setup()
 end
 
-M.event = 'VeryLazy'
+M.event = 'BufReadPre'
 
 return M
