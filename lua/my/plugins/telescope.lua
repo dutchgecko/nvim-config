@@ -32,14 +32,19 @@ mymappings.add {
     { '<C-p>', find_files_in_project, desc = 'open files picker' },
     {
       '<Leader><C-p>',
-      '<cmd>Telescope buffers<CR>',
+      function() require('telescope.builtin').buffers() end,
       desc = 'open buffers picker',
     },
     {
       '<Leader><C-r>',
       live_grep_in_project,
       desc = 'live grep picker',
-    }
+    },
+    {
+      '<Leader><C-o>',
+      function() require('telescope.builtin').jumplist() end,
+      desc = 'jumplist picker',
+    },
   },
 }
 return M
