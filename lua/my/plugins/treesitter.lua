@@ -37,4 +37,6 @@ function M.config()
   vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 end
 
+M.event = 'BufReadPre'
+
 return M
