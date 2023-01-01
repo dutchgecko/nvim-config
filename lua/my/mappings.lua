@@ -1,71 +1,46 @@
-local function currymap(mode)
-  return function(lhs, rhs, opts) vim.keymap.set(mode, lhs, rhs, opts) end
-end
-
-local nmap = currymap('n')
-local imap = currymap('i')
-local vmap = currymap('v')
-local nvmap = currymap({ 'n', 'v' })
+-- This file generates a table of mappings to be passed to legendary.nvim
 
 local M = {}
-M.nmap = nmap
-M.imap = imap
-M.vmap = vmap
-M.nvmap = nvmap
+M.keymaps = {}
 
-function M.setup()
-  nmap('<C-h>', vim.cmd.nohlsearch, {
-    silent = true,
-    desc = ':nohlsearch - clear search highlight',
-  })
-
-  nvmap(
-    '<Leader>y',
-    '"+y',
-    { desc = 'yank to system clipboard' }
-  )
-  nvmap(
-    '<Leader>d',
-    '"+d',
-    { desc = 'delete to system clipboard' }
-  )
-  nvmap(
-    '<Leader>p',
-    '"+p',
-    { desc = 'paste from system clipboard' }
-  )
-  nvmap(
-    '<Leader>P',
-    '"+P',
-    { desc = 'paste above from system clipboard' }
-  )
-
-  nmap(
-    '<Leader>se',
-    function()
-      vim.opt_local.spell = true
-      vim.opt_local.spelllang = 'en_gb'
-    end,
-    { desc = 'enable spelling EN_GB' }
-  )
-  nmap(
-    '<Leader>su',
-    function()
-      vim.opt_local.spell = true
-      vim.opt_local.spelllang = 'en_us'
-    end,
-    { desc = 'enable spelling EN_US' }
-  )
-  nmap(
-    '<Leader>sd',
-    function()
-      vim.opt_local.spell = true
-      vim.opt_local.spelllang = 'nl'
-    end,
-    { desc = 'enable spelling NL' }
-  )
-
-  nmap('<C-j>', 'o<Esc>', { desc = 'insert new blank line in normal mode' })
+function M.add(mapping)
+  table.insert(M.keymaps, mapping)
 end
+
+local add = M.add
+
+add { '<C-h>', vim.cmd.nohlsearch, desc = ':nohlsearch - clear search highlight' }
+
+add { '<Leader>y', '"+y', desc = 'yank to system clipboard' }
+add { '<Leader>d', '"+d', desc = 'delete to system clipboard' }
+add { '<Leader>p', '"+p', desc = 'paste from system clipboard' }
+add { '<Leader>P', '"+P', desc = 'paste above from system clipboard' }
+
+add {
+  '<Leader>se',
+  function()
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = 'en_gb'
+  end,
+  desc = 'enable spelling EN_GB',
+}
+add {
+  '<Leader>su',
+  function()
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = 'en_us'
+  end,
+  desc = 'enable spelling EN_US',
+}
+add {
+  '<Leader>sd',
+  function()
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = 'nl'
+  end,
+  desc = 'enable spelling NL',
+}
+
+add { '<C-j>', 'o<Esc>', desc = 'insert new blank line in normal mode' }
 
 return M
