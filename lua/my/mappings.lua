@@ -1,10 +1,11 @@
 -- This file generates a table of mappings to be passed to legendary.nvim
+local insert = table.insert
 
 local M = {}
 M.keymaps = {}
 
 function M.add(mapping)
-  table.insert(M.keymaps, mapping)
+  insert(M.keymaps, mapping)
 end
 
 local add = M.add
