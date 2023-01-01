@@ -1,5 +1,3 @@
-local mymappings = require('my.mappings')
-
 local M = { 'nvim-treesitter/nvim-treesitter' }
 
 function M.build()
@@ -41,18 +39,5 @@ function M.config()
 end
 
 M.event = 'BufReadPre'
-
-mymappings.add {
-  itemgroup = 'telescope',
-  description = 'telescope mappings',
-  keymaps = {
-    { '<C-p>', '<cmd>Telescope find_files<CR>', desc = 'open files picker' },
-    {
-      '<Leader><C-p>',
-      '<cmd>Telescope buffers<CR>',
-      desc = 'open buffers picker',
-    }
-  },
-}
 
 return M
