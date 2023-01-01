@@ -22,6 +22,7 @@ function M.config()
       'typescript',
       'vim',
       'yaml',
+      'jsonc',
     },
 
     highlight = {
