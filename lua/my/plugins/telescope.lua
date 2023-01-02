@@ -1,9 +1,7 @@
 local mymappings = require('my.mappings')
 local myutils = require('my.utils')
 
-local M = {
-  'nvim-telescope/telescope.nvim'
-}
+local M = { 'nvim-telescope/telescope.nvim' }
 
 M.dependencies = {
   { 'nvim-lua/plenary.nvim' }
@@ -27,7 +25,7 @@ end
 
 mymappings.add {
   itemgroup = 'telescope',
-  description = 'telescope mappings',
+  description = 'mappings to trigger telescope',
   keymaps = {
     { '<C-p>', find_files_in_project, desc = 'open files picker' },
     {

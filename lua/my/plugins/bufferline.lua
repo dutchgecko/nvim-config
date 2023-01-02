@@ -15,8 +15,8 @@ function M.config()
       end,
       offsets = {
         {
-          filetype = 'NvimTree',
-          text = 'Files',
+          filetype = 'neo-tree',
+          text = ' Files',
           text_align = 'left',
         },
       },
