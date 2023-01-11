@@ -9,8 +9,8 @@ function M.get_project_root()
   end
 
   if vim.fn.executable('git') then
-    local project_dir = next(vim.fn.systemlist('git rev-parse --show-toplevel'))
-    if vim.v.shell_error == 0 and project_dir ~= nil then
+    local n, project_dir = next(vim.fn.systemlist('git rev-parse --show-toplevel'))
+    if n ~= nil and vim.v.shell_error == 0 and project_dir ~= nil then
       return project_dir
     end
   end
